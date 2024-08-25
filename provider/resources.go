@@ -25,7 +25,7 @@ import (
 	shimv2 "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim/sdk-v2"
 
 	// Replace this provider with the provider you are bridging.
-	honeycomb "github.com/honeycombio/terraform-provider-honeycombio"
+	honeycomb "github.com/honeycombio/terraform-provider-honeycombio/honeycombio"
 
 	"github.com/thejokersthief/pulumi-honeycomb/provider/pkg/version"
 )
@@ -106,9 +106,9 @@ func Provider() tfbridge.ProviderInfo {
 		// - "github.com/hashicorp/terraform-plugin-framework/provider".Provider (for plugin-framework)
 		//
 		//nolint:lll
-		P: shimv2.NewProvider(honeycomb.New(version.Version)()),
+		P: shimv2.NewProvider(honeycomb.Provider()),
 
-		Name:    "honeycomb",
+		Name:    "honeycombio",
 		Version: version.Version,
 		// DisplayName is a way to be able to change the casing of the provider name when being
 		// displayed on the Pulumi registry
@@ -136,7 +136,7 @@ func Provider() tfbridge.ProviderInfo {
 		Repository: "https://github.com/thejokersthief/pulumi-honeycomb",
 		// The GitHub Org for the provider - defaults to `terraform-providers`. Note that this should
 		// match the TF provider module's require directive, not any replace directives.
-		GitHubOrg:    "",
+		GitHubOrg:    "honeycombio",
 		MetadataInfo: tfbridge.NewProviderMetadata(metadata),
 		Config:       map[string]*tfbridge.SchemaInfo{
 			// Add any required configuration here, or remove the example below if
@@ -177,6 +177,35 @@ func Provider() tfbridge.ProviderInfo {
 			PackageReferences: map[string]string{
 				"Pulumi": "3.*",
 			},
+		},
+
+		Resources: map[string]*tfbridge.ResourceInfo{
+			"honeycombio_board":               {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Board")},
+			"honeycombio_column":              {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Column")},
+			"honeycombio_dataset":             {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Dataset")},
+			"honeycombio_dataset_definition":  {Tok: tfbridge.MakeResource(mainPkg, mainMod, "DatasetDefinition")},
+			"honeycombio_derived_column":      {Tok: tfbridge.MakeResource(mainPkg, mainMod, "DerivedColumn")},
+			"honeycombio_email_recipient":     {Tok: tfbridge.MakeResource(mainPkg, mainMod, "EmailRecipient")},
+			"honeycombio_marker":              {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Marker")},
+			"honeycombio_marker_setting":      {Tok: tfbridge.MakeResource(mainPkg, mainMod, "MarkerSetting")},
+			"honeycombio_pagerduty_recipient": {Tok: tfbridge.MakeResource(mainPkg, mainMod, "PagerDutyRecipient")},
+			"honeycombio_query":               {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Query")},
+			"honeycombio_query_annotation":    {Tok: tfbridge.MakeResource(mainPkg, mainMod, "QueryAnnotation")},
+			"honeycombio_slack_recipient":     {Tok: tfbridge.MakeResource(mainPkg, mainMod, "SlackRecipient")},
+			"honeycombio_slo":                 {Tok: tfbridge.MakeResource(mainPkg, mainMod, "SLO")},
+			"honeycombio_webhook_recipient":   {Tok: tfbridge.MakeResource(mainPkg, mainMod, "WebhookRecipient")},
+			"honeycombio_trigger":             {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Trigger")},
+			"honeycombio_burn_alert":          {Tok: tfbridge.MakeResource(mainPkg, mainMod, "BurnAlert")},
+		},
+		DataSources: map[string]*tfbridge.DataSourceInfo{
+			"honeycombio_column":              {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetColumn")},
+			"honeycombio_columns":             {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetColumns")},
+			"honeycombio_datasets":            {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetDatasets")},
+			"honeycombio_query_result":        {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetQueryResult")},
+			"honeycombio_query_specification": {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetQuerySpecification")},
+			"honeycombio_recipient":           {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetRecipient")},
+			"honeycombio_recipients":          {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetRecipients")},
+			"honeycombio_trigger_recipient":   {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetTriggerRecipient")},
 		},
 	}
 
