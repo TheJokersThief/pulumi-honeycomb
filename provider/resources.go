@@ -20,12 +20,12 @@ import (
 	// Allow embedding bridge-metadata.json in the provider.
 	_ "embed"
 
+	pfbridge "github.com/pulumi/pulumi-terraform-bridge/pf/tfbridge"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
 	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge/tokens"
-	shimv2 "github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfshim/sdk-v2"
 
 	// Replace this provider with the provider you are bridging.
-	honeycomb "github.com/honeycombio/terraform-provider-honeycombio/honeycombio"
+	honeycomb "github.com/honeycombio/terraform-provider-honeycombio/shim"
 
 	"github.com/thejokersthief/pulumi-honeycomb/provider/pkg/version"
 )
@@ -106,7 +106,7 @@ func Provider() tfbridge.ProviderInfo {
 		// - "github.com/hashicorp/terraform-plugin-framework/provider".Provider (for plugin-framework)
 		//
 		//nolint:lll
-		P: shimv2.NewProvider(honeycomb.Provider()),
+		P: pfbridge.ShimProvider(honeycomb.Provider()),
 
 		Name:    "honeycombio",
 		Version: version.Version,
@@ -180,22 +180,24 @@ func Provider() tfbridge.ProviderInfo {
 		},
 
 		Resources: map[string]*tfbridge.ResourceInfo{
-			"honeycombio_board":               {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Board")},
-			"honeycombio_column":              {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Column")},
-			"honeycombio_dataset":             {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Dataset")},
-			"honeycombio_dataset_definition":  {Tok: tfbridge.MakeResource(mainPkg, mainMod, "DatasetDefinition")},
-			"honeycombio_derived_column":      {Tok: tfbridge.MakeResource(mainPkg, mainMod, "DerivedColumn")},
-			"honeycombio_email_recipient":     {Tok: tfbridge.MakeResource(mainPkg, mainMod, "EmailRecipient")},
-			"honeycombio_marker":              {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Marker")},
-			"honeycombio_marker_setting":      {Tok: tfbridge.MakeResource(mainPkg, mainMod, "MarkerSetting")},
-			"honeycombio_pagerduty_recipient": {Tok: tfbridge.MakeResource(mainPkg, mainMod, "PagerDutyRecipient")},
-			"honeycombio_query":               {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Query")},
-			"honeycombio_query_annotation":    {Tok: tfbridge.MakeResource(mainPkg, mainMod, "QueryAnnotation")},
-			"honeycombio_slack_recipient":     {Tok: tfbridge.MakeResource(mainPkg, mainMod, "SlackRecipient")},
-			"honeycombio_slo":                 {Tok: tfbridge.MakeResource(mainPkg, mainMod, "SLO")},
-			"honeycombio_webhook_recipient":   {Tok: tfbridge.MakeResource(mainPkg, mainMod, "WebhookRecipient")},
-			"honeycombio_trigger":             {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Trigger")},
-			"honeycombio_burn_alert":          {Tok: tfbridge.MakeResource(mainPkg, mainMod, "BurnAlert")},
+			// "honeycombio_board":               {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Board")},
+			// "honeycombio_column":             {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Column")},
+			"honeycombio_dataset": {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Dataset")},
+			// "honeycombio_dataset_definition": {Tok: tfbridge.MakeResource(mainPkg, mainMod, "DatasetDefinition")},
+			// "honeycombio_derived_column":      {Tok: tfbridge.MakeResource(mainPkg, mainMod, "DerivedColumn")},
+			// "honeycombio_email_recipient":     {Tok: tfbridge.MakeResource(mainPkg, mainMod, "EmailRecipient")},
+			// "honeycombio_marker":              {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Marker")},
+			// "honeycombio_marker_setting":      {Tok: tfbridge.MakeResource(mainPkg, mainMod, "MarkerSetting")},
+			// "honeycombio_pagerduty_recipient": {Tok: tfbridge.MakeResource(mainPkg, mainMod, "PagerDutyRecipient")},
+			"honeycombio_query": {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Query")},
+			// "honeycombio_query_annotation":    {Tok: tfbridge.MakeResource(mainPkg, mainMod, "QueryAnnotation")},
+			// "honeycombio_slack_recipient":     {Tok: tfbridge.MakeResource(mainPkg, mainMod, "SlackRecipient")},
+			// "honeycombio_slo":                 {Tok: tfbridge.MakeResource(mainPkg, mainMod, "SLO")},
+			// "honeycombio_webhook_recipient":   {Tok: tfbridge.MakeResource(mainPkg, mainMod, "WebhookRecipient")},
+			"honeycombio_trigger":     {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Trigger")},
+			"honeycombio_burn_alert":  {Tok: tfbridge.MakeResource(mainPkg, mainMod, "BurnAlert")},
+			"honeycombio_api_key":     {Tok: tfbridge.MakeResource(mainPkg, mainMod, "ApiKey")},
+			"honeycombio_environment": {Tok: tfbridge.MakeResource(mainPkg, mainMod, "Environment")},
 		},
 		DataSources: map[string]*tfbridge.DataSourceInfo{
 			"honeycombio_column":              {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetColumn")},
@@ -206,6 +208,14 @@ func Provider() tfbridge.ProviderInfo {
 			"honeycombio_recipient":           {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetRecipient")},
 			"honeycombio_recipients":          {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetRecipients")},
 			"honeycombio_trigger_recipient":   {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetTriggerRecipient")},
+			"honeycombio_auth_metadata":       {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetAuthMetadata")},
+			"honeycombio_dataset":             {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetDataset")},
+			"honeycombio_derived_column":      {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetDerivedColumn")},
+			"honeycombio_derived_columns":     {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetDerivedColumns")},
+			"honeycombio_environment":         {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetEnvironment")},
+			"honeycombio_environments":        {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetEnvironments")},
+			"honeycombio_slo":                 {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetSLO")},
+			"honeycombio_slos":                {Tok: tfbridge.MakeDataSource(mainPkg, mainMod, "GetSLOs")},
 		},
 	}
 

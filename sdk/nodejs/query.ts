@@ -7,40 +7,20 @@ import * as utilities from "./utilities";
 /**
  * ## # Resource: honeycomb.Query
  *
- * Creates a query in a dataset.
+ * Creates a Query scoped to a Dataset or Environment.
  *
- * Queries can be used by triggers and boards, or be executed via the [Query Data API](https://docs.honeycomb.io/api/query-results/).
+ * Queries can be used by Triggers and Boards, or be executed via the [Query Data API](https://docs.honeycomb.io/api/query-results/).
  *
- * > **Note** Queries can only be created or read. Any changes will result in a new query object being created, and destroying it does nothing.
- *
- * ## Example Usage
- *
- * ```typescript
- * import * as pulumi from "@pulumi/pulumi";
- * import * as honeycomb from "@pulumi/honeycomb";
- *
- * const config = new pulumi.Config();
- * const dataset = config.require("dataset");
- * const testQueryGetQuerySpecification = honeycomb.GetQuerySpecification({
- *     calculations: [{
- *         op: "AVG",
- *         column: "duration_ms",
- *     }],
- *     filters: [{
- *         column: "duration_ms",
- *         op: ">",
- *         value: "200",
- *     }],
- * });
- * const testQueryQuery = new honeycomb.Query("testQueryQuery", {
- *     dataset: dataset,
- *     queryJson: testQueryGetQuerySpecification.then(testQueryGetQuerySpecification => testQueryGetQuerySpecification.json),
- * });
- * ```
+ * > **Note** Queries are immutable and can not be deleted -- only created or read.
+ *   Any changes will result in a new query object being created.
  *
  * ## Import
  *
- * Queries cannot be imported.
+ * Querys can be imported using a combination of the dataset name and their ID, e.g.
+ *
+ * ```sh
+ * $ pulumi import honeycomb:index/query:Query my_query my-dataset/bj8BwOa1uRz
+ * ```
  */
 export class Query extends pulumi.CustomResource {
     /**
@@ -71,11 +51,13 @@ export class Query extends pulumi.CustomResource {
     }
 
     /**
-     * The dataset this query is added to. Use `__all__` for Environment-wide queries.
+     * The dataset this query is scoped to.
+     * Use `__all__` for Environment-wide queries.
      */
     public readonly dataset!: pulumi.Output<string>;
     /**
-     * A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `honeycomb.GetQuerySpecification` data source.
+     * A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+     * While the JSON can be constructed manually, using the `honeycomb.GetQuerySpecification` data source provides deeper validation.
      */
     public readonly queryJson!: pulumi.Output<string>;
 
@@ -115,11 +97,13 @@ export class Query extends pulumi.CustomResource {
  */
 export interface QueryState {
     /**
-     * The dataset this query is added to. Use `__all__` for Environment-wide queries.
+     * The dataset this query is scoped to.
+     * Use `__all__` for Environment-wide queries.
      */
     dataset?: pulumi.Input<string>;
     /**
-     * A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `honeycomb.GetQuerySpecification` data source.
+     * A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+     * While the JSON can be constructed manually, using the `honeycomb.GetQuerySpecification` data source provides deeper validation.
      */
     queryJson?: pulumi.Input<string>;
 }
@@ -129,11 +113,13 @@ export interface QueryState {
  */
 export interface QueryArgs {
     /**
-     * The dataset this query is added to. Use `__all__` for Environment-wide queries.
+     * The dataset this query is scoped to.
+     * Use `__all__` for Environment-wide queries.
      */
     dataset: pulumi.Input<string>;
     /**
-     * A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `honeycomb.GetQuerySpecification` data source.
+     * A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+     * While the JSON can be constructed manually, using the `honeycomb.GetQuerySpecification` data source provides deeper validation.
      */
     queryJson: pulumi.Input<string>;
 }

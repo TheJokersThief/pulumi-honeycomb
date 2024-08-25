@@ -24,6 +24,22 @@ class _ExportableConfig(types.ModuleType):
         return __config__.get('apiKey')
 
     @property
+    def api_key_id(self) -> Optional[str]:
+        """
+        The ID portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_ID` environment
+        variable.
+        """
+        return __config__.get('apiKeyId')
+
+    @property
+    def api_key_secret(self) -> Optional[str]:
+        """
+        The secret portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_SECRET`
+        environment variable.
+        """
+        return __config__.get('apiKeySecret')
+
+    @property
     def api_url(self) -> Optional[str]:
         """
         Override the URL of the Honeycomb API. Defaults to `https://api.honeycomb.io`. It can also be set via the

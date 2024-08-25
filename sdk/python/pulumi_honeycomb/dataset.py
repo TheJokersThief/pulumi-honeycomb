@@ -14,21 +14,37 @@ __all__ = ['DatasetArgs', 'Dataset']
 @pulumi.input_type
 class DatasetArgs:
     def __init__(__self__, *,
+                 delete_protected: Optional[pulumi.Input[bool]] = None,
                  description: Optional[pulumi.Input[str]] = None,
-                 expand_json_depth: Optional[pulumi.Input[int]] = None,
+                 expand_json_depth: Optional[pulumi.Input[float]] = None,
                  name: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Dataset resource.
+        :param pulumi.Input[bool] delete_protected: the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
         :param pulumi.Input[str] description: A longer description for dataset.
-        :param pulumi.Input[int] expand_json_depth: The maximum unpacking depth of nested JSON fields.
+        :param pulumi.Input[float] expand_json_depth: The maximum unpacking depth of nested JSON fields.
         :param pulumi.Input[str] name: The name of the dataset.
         """
+        if delete_protected is not None:
+            pulumi.set(__self__, "delete_protected", delete_protected)
         if description is not None:
             pulumi.set(__self__, "description", description)
         if expand_json_depth is not None:
             pulumi.set(__self__, "expand_json_depth", expand_json_depth)
         if name is not None:
             pulumi.set(__self__, "name", name)
+
+    @property
+    @pulumi.getter(name="deleteProtected")
+    def delete_protected(self) -> Optional[pulumi.Input[bool]]:
+        """
+        the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
+        """
+        return pulumi.get(self, "delete_protected")
+
+    @delete_protected.setter
+    def delete_protected(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "delete_protected", value)
 
     @property
     @pulumi.getter
@@ -44,14 +60,14 @@ class DatasetArgs:
 
     @property
     @pulumi.getter(name="expandJsonDepth")
-    def expand_json_depth(self) -> Optional[pulumi.Input[int]]:
+    def expand_json_depth(self) -> Optional[pulumi.Input[float]]:
         """
         The maximum unpacking depth of nested JSON fields.
         """
         return pulumi.get(self, "expand_json_depth")
 
     @expand_json_depth.setter
-    def expand_json_depth(self, value: Optional[pulumi.Input[int]]):
+    def expand_json_depth(self, value: Optional[pulumi.Input[float]]):
         pulumi.set(self, "expand_json_depth", value)
 
     @property
@@ -71,22 +87,26 @@ class DatasetArgs:
 class _DatasetState:
     def __init__(__self__, *,
                  created_at: Optional[pulumi.Input[str]] = None,
+                 delete_protected: Optional[pulumi.Input[bool]] = None,
                  description: Optional[pulumi.Input[str]] = None,
-                 expand_json_depth: Optional[pulumi.Input[int]] = None,
+                 expand_json_depth: Optional[pulumi.Input[float]] = None,
                  last_written_at: Optional[pulumi.Input[str]] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  slug: Optional[pulumi.Input[str]] = None):
         """
         Input properties used for looking up and filtering Dataset resources.
-        :param pulumi.Input[str] created_at: ISO8601 formatted time the column was created
+        :param pulumi.Input[str] created_at: ISO8601-formatted time the dataset was created
+        :param pulumi.Input[bool] delete_protected: the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
         :param pulumi.Input[str] description: A longer description for dataset.
-        :param pulumi.Input[int] expand_json_depth: The maximum unpacking depth of nested JSON fields.
-        :param pulumi.Input[str] last_written_at: ISO8601 formatted time the column was last written to (received event data)
+        :param pulumi.Input[float] expand_json_depth: The maximum unpacking depth of nested JSON fields.
+        :param pulumi.Input[str] last_written_at: ISO8601-formatted time the dataset was last written to (received event data)
         :param pulumi.Input[str] name: The name of the dataset.
         :param pulumi.Input[str] slug: The slug of the dataset.
         """
         if created_at is not None:
             pulumi.set(__self__, "created_at", created_at)
+        if delete_protected is not None:
+            pulumi.set(__self__, "delete_protected", delete_protected)
         if description is not None:
             pulumi.set(__self__, "description", description)
         if expand_json_depth is not None:
@@ -102,13 +122,25 @@ class _DatasetState:
     @pulumi.getter(name="createdAt")
     def created_at(self) -> Optional[pulumi.Input[str]]:
         """
-        ISO8601 formatted time the column was created
+        ISO8601-formatted time the dataset was created
         """
         return pulumi.get(self, "created_at")
 
     @created_at.setter
     def created_at(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "created_at", value)
+
+    @property
+    @pulumi.getter(name="deleteProtected")
+    def delete_protected(self) -> Optional[pulumi.Input[bool]]:
+        """
+        the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
+        """
+        return pulumi.get(self, "delete_protected")
+
+    @delete_protected.setter
+    def delete_protected(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "delete_protected", value)
 
     @property
     @pulumi.getter
@@ -124,21 +156,21 @@ class _DatasetState:
 
     @property
     @pulumi.getter(name="expandJsonDepth")
-    def expand_json_depth(self) -> Optional[pulumi.Input[int]]:
+    def expand_json_depth(self) -> Optional[pulumi.Input[float]]:
         """
         The maximum unpacking depth of nested JSON fields.
         """
         return pulumi.get(self, "expand_json_depth")
 
     @expand_json_depth.setter
-    def expand_json_depth(self, value: Optional[pulumi.Input[int]]):
+    def expand_json_depth(self, value: Optional[pulumi.Input[float]]):
         pulumi.set(self, "expand_json_depth", value)
 
     @property
     @pulumi.getter(name="lastWrittenAt")
     def last_written_at(self) -> Optional[pulumi.Input[str]]:
         """
-        ISO8601 formatted time the column was last written to (received event data)
+        ISO8601-formatted time the dataset was last written to (received event data)
         """
         return pulumi.get(self, "last_written_at")
 
@@ -176,18 +208,17 @@ class Dataset(pulumi.CustomResource):
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 delete_protected: Optional[pulumi.Input[bool]] = None,
                  description: Optional[pulumi.Input[str]] = None,
-                 expand_json_depth: Optional[pulumi.Input[int]] = None,
+                 expand_json_depth: Optional[pulumi.Input[float]] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
         ## # Resource: Dataset
 
-        Creates a dataset.
+        Creates a Dataset in an Environment.
 
-        > **Note** If this dataset already exists, creating this resource is a no-op.
-
-        > **Note** Destroying or replacing this resource will not delete the created dataset. It's not possible to delete a dataset using the API.
+        > **Note**: prior to version 0.27.0 of the provider, datasets were *not* deleted on destroy but left in place and only removed from state.
 
         ## Example Usage
 
@@ -206,12 +237,11 @@ class Dataset(pulumi.CustomResource):
         $ pulumi import honeycomb:index/dataset:Dataset my_dataset my-dataset
         ```
 
-        You can find the slug in the URL bar when visiting the Dataset from the UI.
-
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
+        :param pulumi.Input[bool] delete_protected: the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
         :param pulumi.Input[str] description: A longer description for dataset.
-        :param pulumi.Input[int] expand_json_depth: The maximum unpacking depth of nested JSON fields.
+        :param pulumi.Input[float] expand_json_depth: The maximum unpacking depth of nested JSON fields.
         :param pulumi.Input[str] name: The name of the dataset.
         """
         ...
@@ -223,11 +253,9 @@ class Dataset(pulumi.CustomResource):
         """
         ## # Resource: Dataset
 
-        Creates a dataset.
+        Creates a Dataset in an Environment.
 
-        > **Note** If this dataset already exists, creating this resource is a no-op.
-
-        > **Note** Destroying or replacing this resource will not delete the created dataset. It's not possible to delete a dataset using the API.
+        > **Note**: prior to version 0.27.0 of the provider, datasets were *not* deleted on destroy but left in place and only removed from state.
 
         ## Example Usage
 
@@ -245,8 +273,6 @@ class Dataset(pulumi.CustomResource):
         ```sh
         $ pulumi import honeycomb:index/dataset:Dataset my_dataset my-dataset
         ```
-
-        You can find the slug in the URL bar when visiting the Dataset from the UI.
 
         :param str resource_name: The name of the resource.
         :param DatasetArgs args: The arguments to use to populate this resource's properties.
@@ -263,8 +289,9 @@ class Dataset(pulumi.CustomResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 delete_protected: Optional[pulumi.Input[bool]] = None,
                  description: Optional[pulumi.Input[str]] = None,
-                 expand_json_depth: Optional[pulumi.Input[int]] = None,
+                 expand_json_depth: Optional[pulumi.Input[float]] = None,
                  name: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
@@ -275,6 +302,7 @@ class Dataset(pulumi.CustomResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = DatasetArgs.__new__(DatasetArgs)
 
+            __props__.__dict__["delete_protected"] = delete_protected
             __props__.__dict__["description"] = description
             __props__.__dict__["expand_json_depth"] = expand_json_depth
             __props__.__dict__["name"] = name
@@ -292,8 +320,9 @@ class Dataset(pulumi.CustomResource):
             id: pulumi.Input[str],
             opts: Optional[pulumi.ResourceOptions] = None,
             created_at: Optional[pulumi.Input[str]] = None,
+            delete_protected: Optional[pulumi.Input[bool]] = None,
             description: Optional[pulumi.Input[str]] = None,
-            expand_json_depth: Optional[pulumi.Input[int]] = None,
+            expand_json_depth: Optional[pulumi.Input[float]] = None,
             last_written_at: Optional[pulumi.Input[str]] = None,
             name: Optional[pulumi.Input[str]] = None,
             slug: Optional[pulumi.Input[str]] = None) -> 'Dataset':
@@ -304,10 +333,11 @@ class Dataset(pulumi.CustomResource):
         :param str resource_name: The unique name of the resulting resource.
         :param pulumi.Input[str] id: The unique provider ID of the resource to lookup.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[str] created_at: ISO8601 formatted time the column was created
+        :param pulumi.Input[str] created_at: ISO8601-formatted time the dataset was created
+        :param pulumi.Input[bool] delete_protected: the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
         :param pulumi.Input[str] description: A longer description for dataset.
-        :param pulumi.Input[int] expand_json_depth: The maximum unpacking depth of nested JSON fields.
-        :param pulumi.Input[str] last_written_at: ISO8601 formatted time the column was last written to (received event data)
+        :param pulumi.Input[float] expand_json_depth: The maximum unpacking depth of nested JSON fields.
+        :param pulumi.Input[str] last_written_at: ISO8601-formatted time the dataset was last written to (received event data)
         :param pulumi.Input[str] name: The name of the dataset.
         :param pulumi.Input[str] slug: The slug of the dataset.
         """
@@ -316,6 +346,7 @@ class Dataset(pulumi.CustomResource):
         __props__ = _DatasetState.__new__(_DatasetState)
 
         __props__.__dict__["created_at"] = created_at
+        __props__.__dict__["delete_protected"] = delete_protected
         __props__.__dict__["description"] = description
         __props__.__dict__["expand_json_depth"] = expand_json_depth
         __props__.__dict__["last_written_at"] = last_written_at
@@ -327,13 +358,21 @@ class Dataset(pulumi.CustomResource):
     @pulumi.getter(name="createdAt")
     def created_at(self) -> pulumi.Output[str]:
         """
-        ISO8601 formatted time the column was created
+        ISO8601-formatted time the dataset was created
         """
         return pulumi.get(self, "created_at")
 
     @property
+    @pulumi.getter(name="deleteProtected")
+    def delete_protected(self) -> pulumi.Output[bool]:
+        """
+        the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
+        """
+        return pulumi.get(self, "delete_protected")
+
+    @property
     @pulumi.getter
-    def description(self) -> pulumi.Output[Optional[str]]:
+    def description(self) -> pulumi.Output[str]:
         """
         A longer description for dataset.
         """
@@ -341,7 +380,7 @@ class Dataset(pulumi.CustomResource):
 
     @property
     @pulumi.getter(name="expandJsonDepth")
-    def expand_json_depth(self) -> pulumi.Output[Optional[int]]:
+    def expand_json_depth(self) -> pulumi.Output[float]:
         """
         The maximum unpacking depth of nested JSON fields.
         """
@@ -351,7 +390,7 @@ class Dataset(pulumi.CustomResource):
     @pulumi.getter(name="lastWrittenAt")
     def last_written_at(self) -> pulumi.Output[str]:
         """
-        ISO8601 formatted time the column was last written to (received event data)
+        ISO8601-formatted time the dataset was last written to (received event data)
         """
         return pulumi.get(self, "last_written_at")
 

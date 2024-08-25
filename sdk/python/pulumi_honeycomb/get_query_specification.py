@@ -101,9 +101,10 @@ class GetQuerySpecificationResult:
 
     @property
     @pulumi.getter
+    @_utilities.deprecated("""The `id` attribute is deprecated and included for compatibility with the Terraform Plugin SDK. It will be removed in a future version.""")
     def id(self) -> str:
         """
-        The provider-assigned unique ID for this managed resource.
+        ID of the query specification.
         """
         return pulumi.get(self, "id")
 
@@ -172,9 +173,10 @@ def get_query_specification(breakdowns: Optional[Sequence[str]] = None,
     """
     ## # Data Source: get_query_specification
 
-    Generates a [Query Specificaiton](https://docs.honeycomb.io/api/query-specification/) in JSON format.
+    Generates a [Query Specification](https://docs.honeycomb.io/api/query-specification/) in JSON format for use with resources that expect a JSON-formatted Query Specification like `Query`.
 
-    This is a data source which can be used to construct a JSON representation of a Honeycomb [Query Specification](https://docs.honeycomb.io/api/query-specification/). The `json` attribute contains a serialized JSON representation which can be passed to the `query_json` field of the `Query` resource for use in boards and triggers.
+    Using this data source to generate query specifications is optional.
+    It is also valid to use literal JSON strings in your configuration or to use the file interpolation function to read a raw JSON query specification from a file.
 
     ## Example Usage
 
@@ -265,9 +267,10 @@ def get_query_specification_output(breakdowns: Optional[pulumi.Input[Optional[Se
     """
     ## # Data Source: get_query_specification
 
-    Generates a [Query Specificaiton](https://docs.honeycomb.io/api/query-specification/) in JSON format.
+    Generates a [Query Specification](https://docs.honeycomb.io/api/query-specification/) in JSON format for use with resources that expect a JSON-formatted Query Specification like `Query`.
 
-    This is a data source which can be used to construct a JSON representation of a Honeycomb [Query Specification](https://docs.honeycomb.io/api/query-specification/). The `json` attribute contains a serialized JSON representation which can be passed to the `query_json` field of the `Query` resource for use in boards and triggers.
+    Using this data source to generate query specifications is optional.
+    It is also valid to use literal JSON strings in your configuration or to use the file interpolation function to read a raw JSON query specification from a file.
 
     ## Example Usage
 

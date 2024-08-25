@@ -2,18 +2,36 @@
 // *** Do not edit by hand unless you're certain you know what you are doing! ***
 
 import * as pulumi from "@pulumi/pulumi";
+import * as inputs from "./types/input";
+import * as outputs from "./types/output";
 import * as utilities from "./utilities";
 
 /**
  * ## # Data Source: honeycomb.GetDatasets
  *
- * The datasets data source allows the datasets of an account to be retrieved.
+ * The Datasets data source retrieves the Environment's Datasets.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as honeycomb from "@pulumi/honeycomb";
+ *
+ * const all = honeycomb.GetDatasets({});
+ * const foo = honeycomb.GetDatasets({
+ *     detailFilter: {
+ *         name: "name",
+ *         valueRegex: "foo_*",
+ *     },
+ * });
+ * ```
  */
 export function getDatasets(args?: GetDatasetsArgs, opts?: pulumi.InvokeOptions): Promise<GetDatasetsResult> {
     args = args || {};
 
     opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts || {});
     return pulumi.runtime.invoke("honeycomb:index/getDatasets:GetDatasets", {
+        "detailFilter": args.detailFilter,
         "startsWith": args.startsWith,
     }, opts);
 }
@@ -23,7 +41,13 @@ export function getDatasets(args?: GetDatasetsArgs, opts?: pulumi.InvokeOptions)
  */
 export interface GetDatasetsArgs {
     /**
-     * Only return datasets starting with the given value.
+     * a block to further filter results as described below. `name` must be set when providing a filter. Conflicts with `startsWith`.
+     */
+    detailFilter?: inputs.GetDatasetsDetailFilter;
+    /**
+     * Deprecated: use `detailFilter` instead. Only return datasets whose name starts with the given value.
+     *
+     * @deprecated Use the `detailFilter` block instead.
      */
     startsWith?: string;
 }
@@ -32,9 +56,7 @@ export interface GetDatasetsArgs {
  * A collection of values returned by GetDatasets.
  */
 export interface GetDatasetsResult {
-    /**
-     * The provider-assigned unique ID for this managed resource.
-     */
+    readonly detailFilter?: outputs.GetDatasetsDetailFilter;
     readonly id: string;
     /**
      * a list of all the dataset names.
@@ -44,12 +66,30 @@ export interface GetDatasetsResult {
      * a list of all the dataset slugs.
      */
     readonly slugs: string[];
+    /**
+     * @deprecated Use the `detailFilter` block instead.
+     */
     readonly startsWith?: string;
 }
 /**
  * ## # Data Source: honeycomb.GetDatasets
  *
- * The datasets data source allows the datasets of an account to be retrieved.
+ * The Datasets data source retrieves the Environment's Datasets.
+ *
+ * ## Example Usage
+ *
+ * ```typescript
+ * import * as pulumi from "@pulumi/pulumi";
+ * import * as honeycomb from "@pulumi/honeycomb";
+ *
+ * const all = honeycomb.GetDatasets({});
+ * const foo = honeycomb.GetDatasets({
+ *     detailFilter: {
+ *         name: "name",
+ *         valueRegex: "foo_*",
+ *     },
+ * });
+ * ```
  */
 export function getDatasetsOutput(args?: GetDatasetsOutputArgs, opts?: pulumi.InvokeOptions): pulumi.Output<GetDatasetsResult> {
     return pulumi.output(args).apply((a: any) => getDatasets(a, opts))
@@ -60,7 +100,13 @@ export function getDatasetsOutput(args?: GetDatasetsOutputArgs, opts?: pulumi.In
  */
 export interface GetDatasetsOutputArgs {
     /**
-     * Only return datasets starting with the given value.
+     * a block to further filter results as described below. `name` must be set when providing a filter. Conflicts with `startsWith`.
+     */
+    detailFilter?: pulumi.Input<inputs.GetDatasetsDetailFilterArgs>;
+    /**
+     * Deprecated: use `detailFilter` instead. Only return datasets whose name starts with the given value.
+     *
+     * @deprecated Use the `detailFilter` block instead.
      */
     startsWith?: pulumi.Input<string>;
 }

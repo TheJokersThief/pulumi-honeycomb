@@ -20,6 +20,30 @@ Object.defineProperty(exports, "apiKey", {
 });
 
 /**
+ * The ID portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_ID` environment
+ * variable.
+ */
+export declare const apiKeyId: string | undefined;
+Object.defineProperty(exports, "apiKeyId", {
+    get() {
+        return __config.get("apiKeyId");
+    },
+    enumerable: true,
+});
+
+/**
+ * The secret portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_SECRET`
+ * environment variable.
+ */
+export declare const apiKeySecret: string | undefined;
+Object.defineProperty(exports, "apiKeySecret", {
+    get() {
+        return __config.get("apiKeySecret");
+    },
+    enumerable: true,
+});
+
+/**
  * Override the URL of the Honeycomb API. Defaults to `https://api.honeycomb.io`. It can also be set via the
  * `HONEYCOMB_API_ENDPOINT` environment variable.
  */

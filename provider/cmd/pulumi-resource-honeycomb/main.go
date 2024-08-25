@@ -15,11 +15,11 @@
 package main
 
 import (
+	"context"
 	_ "embed"
 
-	"github.com/pulumi/pulumi-terraform-bridge/v3/pkg/tfbridge"
+	"github.com/pulumi/pulumi-terraform-bridge/pf/tfbridge"
 	honeycomb "github.com/thejokersthief/pulumi-honeycomb/provider"
-	"github.com/thejokersthief/pulumi-honeycomb/provider/pkg/version"
 )
 
 //go:embed schema.json
@@ -27,5 +27,5 @@ var pulumiSchema []byte
 
 func main() {
 	// Modify the path to point to the new provider
-	tfbridge.Main("honeycomb", version.Version, honeycomb.Provider(), pulumiSchema)
+	tfbridge.Main(context.Background(), "honeycomb", honeycomb.Provider(), tfbridge.ProviderMetadata{PackageSchema: pulumiSchema})
 }

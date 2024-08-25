@@ -13,7 +13,40 @@ import (
 
 // ## # Data Source: GetDatasets
 //
-// The datasets data source allows the datasets of an account to be retrieved.
+// The Datasets data source retrieves the Environment's Datasets.
+//
+// ## Example Usage
+//
+// ```go
+// package main
+//
+// import (
+//
+//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
+//	"github.com/thejokersthief/pulumi-honeycomb/sdk/go/honeycomb"
+//
+// )
+//
+//	func main() {
+//		pulumi.Run(func(ctx *pulumi.Context) error {
+//			_, err := honeycomb.GetDatasets(ctx, nil, nil)
+//			if err != nil {
+//				return err
+//			}
+//			_, err = honeycomb.GetDatasets(ctx, &honeycomb.GetDatasetsArgs{
+//				DetailFilter: honeycomb.GetDatasetsDetailFilter{
+//					Name:       "name",
+//					ValueRegex: pulumi.StringRef("foo_*"),
+//				},
+//			}, nil)
+//			if err != nil {
+//				return err
+//			}
+//			return nil
+//		})
+//	}
+//
+// ```
 func GetDatasets(ctx *pulumi.Context, args *GetDatasetsArgs, opts ...pulumi.InvokeOption) (*GetDatasetsResult, error) {
 	opts = internal.PkgInvokeDefaultOpts(opts)
 	var rv GetDatasetsResult
@@ -26,19 +59,24 @@ func GetDatasets(ctx *pulumi.Context, args *GetDatasetsArgs, opts ...pulumi.Invo
 
 // A collection of arguments for invoking GetDatasets.
 type GetDatasetsArgs struct {
-	// Only return datasets starting with the given value.
+	// a block to further filter results as described below. `name` must be set when providing a filter. Conflicts with `startsWith`.
+	DetailFilter *GetDatasetsDetailFilter `pulumi:"detailFilter"`
+	// Deprecated: use `detailFilter` instead. Only return datasets whose name starts with the given value.
+	//
+	// Deprecated: Use the `detailFilter` block instead.
 	StartsWith *string `pulumi:"startsWith"`
 }
 
 // A collection of values returned by GetDatasets.
 type GetDatasetsResult struct {
-	// The provider-assigned unique ID for this managed resource.
-	Id string `pulumi:"id"`
+	DetailFilter *GetDatasetsDetailFilter `pulumi:"detailFilter"`
+	Id           string                   `pulumi:"id"`
 	// a list of all the dataset names.
 	Names []string `pulumi:"names"`
 	// a list of all the dataset slugs.
-	Slugs      []string `pulumi:"slugs"`
-	StartsWith *string  `pulumi:"startsWith"`
+	Slugs []string `pulumi:"slugs"`
+	// Deprecated: Use the `detailFilter` block instead.
+	StartsWith *string `pulumi:"startsWith"`
 }
 
 func GetDatasetsOutput(ctx *pulumi.Context, args GetDatasetsOutputArgs, opts ...pulumi.InvokeOption) GetDatasetsResultOutput {
@@ -56,7 +94,11 @@ func GetDatasetsOutput(ctx *pulumi.Context, args GetDatasetsOutputArgs, opts ...
 
 // A collection of arguments for invoking GetDatasets.
 type GetDatasetsOutputArgs struct {
-	// Only return datasets starting with the given value.
+	// a block to further filter results as described below. `name` must be set when providing a filter. Conflicts with `startsWith`.
+	DetailFilter GetDatasetsDetailFilterPtrInput `pulumi:"detailFilter"`
+	// Deprecated: use `detailFilter` instead. Only return datasets whose name starts with the given value.
+	//
+	// Deprecated: Use the `detailFilter` block instead.
 	StartsWith pulumi.StringPtrInput `pulumi:"startsWith"`
 }
 
@@ -79,7 +121,10 @@ func (o GetDatasetsResultOutput) ToGetDatasetsResultOutputWithContext(ctx contex
 	return o
 }
 
-// The provider-assigned unique ID for this managed resource.
+func (o GetDatasetsResultOutput) DetailFilter() GetDatasetsDetailFilterPtrOutput {
+	return o.ApplyT(func(v GetDatasetsResult) *GetDatasetsDetailFilter { return v.DetailFilter }).(GetDatasetsDetailFilterPtrOutput)
+}
+
 func (o GetDatasetsResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v GetDatasetsResult) string { return v.Id }).(pulumi.StringOutput)
 }
@@ -94,6 +139,7 @@ func (o GetDatasetsResultOutput) Slugs() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v GetDatasetsResult) []string { return v.Slugs }).(pulumi.StringArrayOutput)
 }
 
+// Deprecated: Use the `detailFilter` block instead.
 func (o GetDatasetsResultOutput) StartsWith() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v GetDatasetsResult) *string { return v.StartsWith }).(pulumi.StringPtrOutput)
 }

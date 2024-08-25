@@ -14,69 +14,29 @@ import (
 
 // ## # Resource: Query
 //
-// Creates a query in a dataset.
+// Creates a Query scoped to a Dataset or Environment.
 //
-// Queries can be used by triggers and boards, or be executed via the [Query Data API](https://docs.honeycomb.io/api/query-results/).
+// Queries can be used by Triggers and Boards, or be executed via the [Query Data API](https://docs.honeycomb.io/api/query-results/).
 //
-// > **Note** Queries can only be created or read. Any changes will result in a new query object being created, and destroying it does nothing.
+// > **Note** Queries are immutable and can not be deleted -- only created or read.
 //
-// ## Example Usage
-//
-// ```go
-// package main
-//
-// import (
-//
-//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-//	"github.com/pulumi/pulumi/sdk/v3/go/pulumi/config"
-//	"github.com/thejokersthief/pulumi-honeycomb/sdk/go/honeycomb"
-//
-// )
-//
-//	func main() {
-//		pulumi.Run(func(ctx *pulumi.Context) error {
-//			cfg := config.New(ctx, "")
-//			dataset := cfg.Require("dataset")
-//			testQueryGetQuerySpecification, err := honeycomb.GetQuerySpecification(ctx, &honeycomb.GetQuerySpecificationArgs{
-//				Calculations: []honeycomb.GetQuerySpecificationCalculation{
-//					{
-//						Op:     "AVG",
-//						Column: pulumi.StringRef("duration_ms"),
-//					},
-//				},
-//				Filters: []honeycomb.GetQuerySpecificationFilter{
-//					{
-//						Column: "duration_ms",
-//						Op:     ">",
-//						Value:  pulumi.StringRef("200"),
-//					},
-//				},
-//			}, nil)
-//			if err != nil {
-//				return err
-//			}
-//			_, err = honeycomb.NewQuery(ctx, "testQueryQuery", &honeycomb.QueryArgs{
-//				Dataset:   pulumi.String(dataset),
-//				QueryJson: pulumi.String(testQueryGetQuerySpecification.Json),
-//			})
-//			if err != nil {
-//				return err
-//			}
-//			return nil
-//		})
-//	}
-//
-// ```
+//	Any changes will result in a new query object being created.
 //
 // ## Import
 //
-// Queries cannot be imported.
+// Querys can be imported using a combination of the dataset name and their ID, e.g.
+//
+// ```sh
+// $ pulumi import honeycomb:index/query:Query my_query my-dataset/bj8BwOa1uRz
+// ```
 type Query struct {
 	pulumi.CustomResourceState
 
-	// The dataset this query is added to. Use `__all__` for Environment-wide queries.
+	// The dataset this query is scoped to.
+	// Use `__all__` for Environment-wide queries.
 	Dataset pulumi.StringOutput `pulumi:"dataset"`
-	// A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `GetQuerySpecification` data source.
+	// A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+	// While the JSON can be constructed manually, using the `GetQuerySpecification` data source provides deeper validation.
 	QueryJson pulumi.StringOutput `pulumi:"queryJson"`
 }
 
@@ -116,16 +76,20 @@ func GetQuery(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering Query resources.
 type queryState struct {
-	// The dataset this query is added to. Use `__all__` for Environment-wide queries.
+	// The dataset this query is scoped to.
+	// Use `__all__` for Environment-wide queries.
 	Dataset *string `pulumi:"dataset"`
-	// A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `GetQuerySpecification` data source.
+	// A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+	// While the JSON can be constructed manually, using the `GetQuerySpecification` data source provides deeper validation.
 	QueryJson *string `pulumi:"queryJson"`
 }
 
 type QueryState struct {
-	// The dataset this query is added to. Use `__all__` for Environment-wide queries.
+	// The dataset this query is scoped to.
+	// Use `__all__` for Environment-wide queries.
 	Dataset pulumi.StringPtrInput
-	// A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `GetQuerySpecification` data source.
+	// A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+	// While the JSON can be constructed manually, using the `GetQuerySpecification` data source provides deeper validation.
 	QueryJson pulumi.StringPtrInput
 }
 
@@ -134,17 +98,21 @@ func (QueryState) ElementType() reflect.Type {
 }
 
 type queryArgs struct {
-	// The dataset this query is added to. Use `__all__` for Environment-wide queries.
+	// The dataset this query is scoped to.
+	// Use `__all__` for Environment-wide queries.
 	Dataset string `pulumi:"dataset"`
-	// A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `GetQuerySpecification` data source.
+	// A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+	// While the JSON can be constructed manually, using the `GetQuerySpecification` data source provides deeper validation.
 	QueryJson string `pulumi:"queryJson"`
 }
 
 // The set of arguments for constructing a Query resource.
 type QueryArgs struct {
-	// The dataset this query is added to. Use `__all__` for Environment-wide queries.
+	// The dataset this query is scoped to.
+	// Use `__all__` for Environment-wide queries.
 	Dataset pulumi.StringInput
-	// A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `GetQuerySpecification` data source.
+	// A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+	// While the JSON can be constructed manually, using the `GetQuerySpecification` data source provides deeper validation.
 	QueryJson pulumi.StringInput
 }
 
@@ -235,12 +203,14 @@ func (o QueryOutput) ToQueryOutputWithContext(ctx context.Context) QueryOutput {
 	return o
 }
 
-// The dataset this query is added to. Use `__all__` for Environment-wide queries.
+// The dataset this query is scoped to.
+// Use `__all__` for Environment-wide queries.
 func (o QueryOutput) Dataset() pulumi.StringOutput {
 	return o.ApplyT(func(v *Query) pulumi.StringOutput { return v.Dataset }).(pulumi.StringOutput)
 }
 
-// A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `GetQuerySpecification` data source.
+// A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+// While the JSON can be constructed manually, using the `GetQuerySpecification` data source provides deeper validation.
 func (o QueryOutput) QueryJson() pulumi.StringOutput {
 	return o.ApplyT(func(v *Query) pulumi.StringOutput { return v.QueryJson }).(pulumi.StringOutput)
 }

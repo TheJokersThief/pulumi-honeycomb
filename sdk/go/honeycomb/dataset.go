@@ -13,11 +13,9 @@ import (
 
 // ## # Resource: Dataset
 //
-// Creates a dataset.
+// Creates a Dataset in an Environment.
 //
-// > **Note** If this dataset already exists, creating this resource is a no-op.
-//
-// > **Note** Destroying or replacing this resource will not delete the created dataset. It's not possible to delete a dataset using the API.
+// > **Note**: prior to version 0.27.0 of the provider, datasets were *not* deleted on destroy but left in place and only removed from state.
 //
 // ## Example Usage
 //
@@ -52,18 +50,18 @@ import (
 // ```sh
 // $ pulumi import honeycomb:index/dataset:Dataset my_dataset my-dataset
 // ```
-//
-// You can find the slug in the URL bar when visiting the Dataset from the UI.
 type Dataset struct {
 	pulumi.CustomResourceState
 
-	// ISO8601 formatted time the column was created
+	// ISO8601-formatted time the dataset was created
 	CreatedAt pulumi.StringOutput `pulumi:"createdAt"`
+	// the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
+	DeleteProtected pulumi.BoolOutput `pulumi:"deleteProtected"`
 	// A longer description for dataset.
-	Description pulumi.StringPtrOutput `pulumi:"description"`
+	Description pulumi.StringOutput `pulumi:"description"`
 	// The maximum unpacking depth of nested JSON fields.
-	ExpandJsonDepth pulumi.IntPtrOutput `pulumi:"expandJsonDepth"`
-	// ISO8601 formatted time the column was last written to (received event data)
+	ExpandJsonDepth pulumi.Float64Output `pulumi:"expandJsonDepth"`
+	// ISO8601-formatted time the dataset was last written to (received event data)
 	LastWrittenAt pulumi.StringOutput `pulumi:"lastWrittenAt"`
 	// The name of the dataset.
 	Name pulumi.StringOutput `pulumi:"name"`
@@ -101,13 +99,15 @@ func GetDataset(ctx *pulumi.Context,
 
 // Input properties used for looking up and filtering Dataset resources.
 type datasetState struct {
-	// ISO8601 formatted time the column was created
+	// ISO8601-formatted time the dataset was created
 	CreatedAt *string `pulumi:"createdAt"`
+	// the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
+	DeleteProtected *bool `pulumi:"deleteProtected"`
 	// A longer description for dataset.
 	Description *string `pulumi:"description"`
 	// The maximum unpacking depth of nested JSON fields.
-	ExpandJsonDepth *int `pulumi:"expandJsonDepth"`
-	// ISO8601 formatted time the column was last written to (received event data)
+	ExpandJsonDepth *float64 `pulumi:"expandJsonDepth"`
+	// ISO8601-formatted time the dataset was last written to (received event data)
 	LastWrittenAt *string `pulumi:"lastWrittenAt"`
 	// The name of the dataset.
 	Name *string `pulumi:"name"`
@@ -116,13 +116,15 @@ type datasetState struct {
 }
 
 type DatasetState struct {
-	// ISO8601 formatted time the column was created
+	// ISO8601-formatted time the dataset was created
 	CreatedAt pulumi.StringPtrInput
+	// the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
+	DeleteProtected pulumi.BoolPtrInput
 	// A longer description for dataset.
 	Description pulumi.StringPtrInput
 	// The maximum unpacking depth of nested JSON fields.
-	ExpandJsonDepth pulumi.IntPtrInput
-	// ISO8601 formatted time the column was last written to (received event data)
+	ExpandJsonDepth pulumi.Float64PtrInput
+	// ISO8601-formatted time the dataset was last written to (received event data)
 	LastWrittenAt pulumi.StringPtrInput
 	// The name of the dataset.
 	Name pulumi.StringPtrInput
@@ -135,20 +137,24 @@ func (DatasetState) ElementType() reflect.Type {
 }
 
 type datasetArgs struct {
+	// the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
+	DeleteProtected *bool `pulumi:"deleteProtected"`
 	// A longer description for dataset.
 	Description *string `pulumi:"description"`
 	// The maximum unpacking depth of nested JSON fields.
-	ExpandJsonDepth *int `pulumi:"expandJsonDepth"`
+	ExpandJsonDepth *float64 `pulumi:"expandJsonDepth"`
 	// The name of the dataset.
 	Name *string `pulumi:"name"`
 }
 
 // The set of arguments for constructing a Dataset resource.
 type DatasetArgs struct {
+	// the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
+	DeleteProtected pulumi.BoolPtrInput
 	// A longer description for dataset.
 	Description pulumi.StringPtrInput
 	// The maximum unpacking depth of nested JSON fields.
-	ExpandJsonDepth pulumi.IntPtrInput
+	ExpandJsonDepth pulumi.Float64PtrInput
 	// The name of the dataset.
 	Name pulumi.StringPtrInput
 }
@@ -240,22 +246,27 @@ func (o DatasetOutput) ToDatasetOutputWithContext(ctx context.Context) DatasetOu
 	return o
 }
 
-// ISO8601 formatted time the column was created
+// ISO8601-formatted time the dataset was created
 func (o DatasetOutput) CreatedAt() pulumi.StringOutput {
 	return o.ApplyT(func(v *Dataset) pulumi.StringOutput { return v.CreatedAt }).(pulumi.StringOutput)
 }
 
+// the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
+func (o DatasetOutput) DeleteProtected() pulumi.BoolOutput {
+	return o.ApplyT(func(v *Dataset) pulumi.BoolOutput { return v.DeleteProtected }).(pulumi.BoolOutput)
+}
+
 // A longer description for dataset.
-func (o DatasetOutput) Description() pulumi.StringPtrOutput {
-	return o.ApplyT(func(v *Dataset) pulumi.StringPtrOutput { return v.Description }).(pulumi.StringPtrOutput)
+func (o DatasetOutput) Description() pulumi.StringOutput {
+	return o.ApplyT(func(v *Dataset) pulumi.StringOutput { return v.Description }).(pulumi.StringOutput)
 }
 
 // The maximum unpacking depth of nested JSON fields.
-func (o DatasetOutput) ExpandJsonDepth() pulumi.IntPtrOutput {
-	return o.ApplyT(func(v *Dataset) pulumi.IntPtrOutput { return v.ExpandJsonDepth }).(pulumi.IntPtrOutput)
+func (o DatasetOutput) ExpandJsonDepth() pulumi.Float64Output {
+	return o.ApplyT(func(v *Dataset) pulumi.Float64Output { return v.ExpandJsonDepth }).(pulumi.Float64Output)
 }
 
-// ISO8601 formatted time the column was last written to (received event data)
+// ISO8601-formatted time the dataset was last written to (received event data)
 func (o DatasetOutput) LastWrittenAt() pulumi.StringOutput {
 	return o.ApplyT(func(v *Dataset) pulumi.StringOutput { return v.LastWrittenAt }).(pulumi.StringOutput)
 }

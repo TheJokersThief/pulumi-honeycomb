@@ -5,95 +5,75 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "./utilities";
 
 // Export members:
-export { BoardArgs, BoardState } from "./board";
-export type Board = import("./board").Board;
-export const Board: typeof import("./board").Board = null as any;
-utilities.lazyLoad(exports, ["Board"], () => require("./board"));
+export { ApiKeyArgs, ApiKeyState } from "./apiKey";
+export type ApiKey = import("./apiKey").ApiKey;
+export const ApiKey: typeof import("./apiKey").ApiKey = null as any;
+utilities.lazyLoad(exports, ["ApiKey"], () => require("./apiKey"));
 
-export { ColumnArgs, ColumnState } from "./column";
-export type Column = import("./column").Column;
-export const Column: typeof import("./column").Column = null as any;
-utilities.lazyLoad(exports, ["Column"], () => require("./column"));
+export { BurnAlertArgs, BurnAlertState } from "./burnAlert";
+export type BurnAlert = import("./burnAlert").BurnAlert;
+export const BurnAlert: typeof import("./burnAlert").BurnAlert = null as any;
+utilities.lazyLoad(exports, ["BurnAlert"], () => require("./burnAlert"));
 
 export { DatasetArgs, DatasetState } from "./dataset";
 export type Dataset = import("./dataset").Dataset;
 export const Dataset: typeof import("./dataset").Dataset = null as any;
 utilities.lazyLoad(exports, ["Dataset"], () => require("./dataset"));
 
-export { DatasetDefinitionArgs, DatasetDefinitionState } from "./datasetDefinition";
-export type DatasetDefinition = import("./datasetDefinition").DatasetDefinition;
-export const DatasetDefinition: typeof import("./datasetDefinition").DatasetDefinition = null as any;
-utilities.lazyLoad(exports, ["DatasetDefinition"], () => require("./datasetDefinition"));
+export { EnvironmentArgs, EnvironmentState } from "./environment";
+export type Environment = import("./environment").Environment;
+export const Environment: typeof import("./environment").Environment = null as any;
+utilities.lazyLoad(exports, ["Environment"], () => require("./environment"));
 
-export { DerivedColumnArgs, DerivedColumnState } from "./derivedColumn";
-export type DerivedColumn = import("./derivedColumn").DerivedColumn;
-export const DerivedColumn: typeof import("./derivedColumn").DerivedColumn = null as any;
-utilities.lazyLoad(exports, ["DerivedColumn"], () => require("./derivedColumn"));
+export { GetAuthMetadataArgs, GetAuthMetadataResult, GetAuthMetadataOutputArgs } from "./getAuthMetadata";
+export const getAuthMetadata: typeof import("./getAuthMetadata").getAuthMetadata = null as any;
+export const getAuthMetadataOutput: typeof import("./getAuthMetadata").getAuthMetadataOutput = null as any;
+utilities.lazyLoad(exports, ["getAuthMetadata","getAuthMetadataOutput"], () => require("./getAuthMetadata"));
 
-export { EmailRecipientArgs, EmailRecipientState } from "./emailRecipient";
-export type EmailRecipient = import("./emailRecipient").EmailRecipient;
-export const EmailRecipient: typeof import("./emailRecipient").EmailRecipient = null as any;
-utilities.lazyLoad(exports, ["EmailRecipient"], () => require("./emailRecipient"));
-
-export { GetColumnArgs, GetColumnResult, GetColumnOutputArgs } from "./getColumn";
-export const getColumn: typeof import("./getColumn").getColumn = null as any;
-export const getColumnOutput: typeof import("./getColumn").getColumnOutput = null as any;
-utilities.lazyLoad(exports, ["getColumn","getColumnOutput"], () => require("./getColumn"));
-
-export { GetColumnsArgs, GetColumnsResult, GetColumnsOutputArgs } from "./getColumns";
-export const getColumns: typeof import("./getColumns").getColumns = null as any;
-export const getColumnsOutput: typeof import("./getColumns").getColumnsOutput = null as any;
-utilities.lazyLoad(exports, ["getColumns","getColumnsOutput"], () => require("./getColumns"));
+export { GetDatasetArgs, GetDatasetResult, GetDatasetOutputArgs } from "./getDataset";
+export const getDataset: typeof import("./getDataset").getDataset = null as any;
+export const getDatasetOutput: typeof import("./getDataset").getDatasetOutput = null as any;
+utilities.lazyLoad(exports, ["getDataset","getDatasetOutput"], () => require("./getDataset"));
 
 export { GetDatasetsArgs, GetDatasetsResult, GetDatasetsOutputArgs } from "./getDatasets";
 export const getDatasets: typeof import("./getDatasets").getDatasets = null as any;
 export const getDatasetsOutput: typeof import("./getDatasets").getDatasetsOutput = null as any;
 utilities.lazyLoad(exports, ["getDatasets","getDatasetsOutput"], () => require("./getDatasets"));
 
-export { GetQueryResultArgs, GetQueryResultResult, GetQueryResultOutputArgs } from "./getQueryResult";
-export const getQueryResult: typeof import("./getQueryResult").getQueryResult = null as any;
-export const getQueryResultOutput: typeof import("./getQueryResult").getQueryResultOutput = null as any;
-utilities.lazyLoad(exports, ["getQueryResult","getQueryResultOutput"], () => require("./getQueryResult"));
+export { GetDerivedColumnArgs, GetDerivedColumnResult, GetDerivedColumnOutputArgs } from "./getDerivedColumn";
+export const getDerivedColumn: typeof import("./getDerivedColumn").getDerivedColumn = null as any;
+export const getDerivedColumnOutput: typeof import("./getDerivedColumn").getDerivedColumnOutput = null as any;
+utilities.lazyLoad(exports, ["getDerivedColumn","getDerivedColumnOutput"], () => require("./getDerivedColumn"));
+
+export { GetDerivedColumnsArgs, GetDerivedColumnsResult, GetDerivedColumnsOutputArgs } from "./getDerivedColumns";
+export const getDerivedColumns: typeof import("./getDerivedColumns").getDerivedColumns = null as any;
+export const getDerivedColumnsOutput: typeof import("./getDerivedColumns").getDerivedColumnsOutput = null as any;
+utilities.lazyLoad(exports, ["getDerivedColumns","getDerivedColumnsOutput"], () => require("./getDerivedColumns"));
+
+export { GetEnvironmentArgs, GetEnvironmentResult, GetEnvironmentOutputArgs } from "./getEnvironment";
+export const getEnvironment: typeof import("./getEnvironment").getEnvironment = null as any;
+export const getEnvironmentOutput: typeof import("./getEnvironment").getEnvironmentOutput = null as any;
+utilities.lazyLoad(exports, ["getEnvironment","getEnvironmentOutput"], () => require("./getEnvironment"));
+
+export { GetEnvironmentsArgs, GetEnvironmentsResult, GetEnvironmentsOutputArgs } from "./getEnvironments";
+export const getEnvironments: typeof import("./getEnvironments").getEnvironments = null as any;
+export const getEnvironmentsOutput: typeof import("./getEnvironments").getEnvironmentsOutput = null as any;
+utilities.lazyLoad(exports, ["getEnvironments","getEnvironmentsOutput"], () => require("./getEnvironments"));
 
 export { GetQuerySpecificationArgs, GetQuerySpecificationResult, GetQuerySpecificationOutputArgs } from "./getQuerySpecification";
 export const getQuerySpecification: typeof import("./getQuerySpecification").getQuerySpecification = null as any;
 export const getQuerySpecificationOutput: typeof import("./getQuerySpecification").getQuerySpecificationOutput = null as any;
 utilities.lazyLoad(exports, ["getQuerySpecification","getQuerySpecificationOutput"], () => require("./getQuerySpecification"));
 
-export { GetRecipientArgs, GetRecipientResult, GetRecipientOutputArgs } from "./getRecipient";
-export const getRecipient: typeof import("./getRecipient").getRecipient = null as any;
-export const getRecipientOutput: typeof import("./getRecipient").getRecipientOutput = null as any;
-utilities.lazyLoad(exports, ["getRecipient","getRecipientOutput"], () => require("./getRecipient"));
+export { GetSLOArgs, GetSLOResult, GetSLOOutputArgs } from "./getSLO";
+export const getSLO: typeof import("./getSLO").getSLO = null as any;
+export const getSLOOutput: typeof import("./getSLO").getSLOOutput = null as any;
+utilities.lazyLoad(exports, ["getSLO","getSLOOutput"], () => require("./getSLO"));
 
-export { GetRecipientsArgs, GetRecipientsResult, GetRecipientsOutputArgs } from "./getRecipients";
-export const getRecipients: typeof import("./getRecipients").getRecipients = null as any;
-export const getRecipientsOutput: typeof import("./getRecipients").getRecipientsOutput = null as any;
-utilities.lazyLoad(exports, ["getRecipients","getRecipientsOutput"], () => require("./getRecipients"));
-
-export { GetTriggerRecipientArgs, GetTriggerRecipientResult, GetTriggerRecipientOutputArgs } from "./getTriggerRecipient";
-export const getTriggerRecipient: typeof import("./getTriggerRecipient").getTriggerRecipient = null as any;
-export const getTriggerRecipientOutput: typeof import("./getTriggerRecipient").getTriggerRecipientOutput = null as any;
-utilities.lazyLoad(exports, ["getTriggerRecipient","getTriggerRecipientOutput"], () => require("./getTriggerRecipient"));
-
-export { MarkerArgs, MarkerState } from "./marker";
-export type Marker = import("./marker").Marker;
-export const Marker: typeof import("./marker").Marker = null as any;
-utilities.lazyLoad(exports, ["Marker"], () => require("./marker"));
-
-export { MarkerSettingArgs, MarkerSettingState } from "./markerSetting";
-export type MarkerSetting = import("./markerSetting").MarkerSetting;
-export const MarkerSetting: typeof import("./markerSetting").MarkerSetting = null as any;
-utilities.lazyLoad(exports, ["MarkerSetting"], () => require("./markerSetting"));
-
-export { MSTeamsRecipientArgs, MSTeamsRecipientState } from "./msteamsRecipient";
-export type MSTeamsRecipient = import("./msteamsRecipient").MSTeamsRecipient;
-export const MSTeamsRecipient: typeof import("./msteamsRecipient").MSTeamsRecipient = null as any;
-utilities.lazyLoad(exports, ["MSTeamsRecipient"], () => require("./msteamsRecipient"));
-
-export { PagerDutyRecipientArgs, PagerDutyRecipientState } from "./pagerDutyRecipient";
-export type PagerDutyRecipient = import("./pagerDutyRecipient").PagerDutyRecipient;
-export const PagerDutyRecipient: typeof import("./pagerDutyRecipient").PagerDutyRecipient = null as any;
-utilities.lazyLoad(exports, ["PagerDutyRecipient"], () => require("./pagerDutyRecipient"));
+export { GetSLOsArgs, GetSLOsResult, GetSLOsOutputArgs } from "./getSLOs";
+export const getSLOs: typeof import("./getSLOs").getSLOs = null as any;
+export const getSLOsOutput: typeof import("./getSLOs").getSLOsOutput = null as any;
+utilities.lazyLoad(exports, ["getSLOs","getSLOsOutput"], () => require("./getSLOs"));
 
 export { ProviderArgs } from "./provider";
 export type Provider = import("./provider").Provider;
@@ -105,25 +85,10 @@ export type Query = import("./query").Query;
 export const Query: typeof import("./query").Query = null as any;
 utilities.lazyLoad(exports, ["Query"], () => require("./query"));
 
-export { QueryAnnotationArgs, QueryAnnotationState } from "./queryAnnotation";
-export type QueryAnnotation = import("./queryAnnotation").QueryAnnotation;
-export const QueryAnnotation: typeof import("./queryAnnotation").QueryAnnotation = null as any;
-utilities.lazyLoad(exports, ["QueryAnnotation"], () => require("./queryAnnotation"));
-
-export { SlackRecipientArgs, SlackRecipientState } from "./slackRecipient";
-export type SlackRecipient = import("./slackRecipient").SlackRecipient;
-export const SlackRecipient: typeof import("./slackRecipient").SlackRecipient = null as any;
-utilities.lazyLoad(exports, ["SlackRecipient"], () => require("./slackRecipient"));
-
-export { SLOArgs, SLOState } from "./slo";
-export type SLO = import("./slo").SLO;
-export const SLO: typeof import("./slo").SLO = null as any;
-utilities.lazyLoad(exports, ["SLO"], () => require("./slo"));
-
-export { WebhookRecipientArgs, WebhookRecipientState } from "./webhookRecipient";
-export type WebhookRecipient = import("./webhookRecipient").WebhookRecipient;
-export const WebhookRecipient: typeof import("./webhookRecipient").WebhookRecipient = null as any;
-utilities.lazyLoad(exports, ["WebhookRecipient"], () => require("./webhookRecipient"));
+export { TriggerArgs, TriggerState } from "./trigger";
+export type Trigger = import("./trigger").Trigger;
+export const Trigger: typeof import("./trigger").Trigger = null as any;
+utilities.lazyLoad(exports, ["Trigger"], () => require("./trigger"));
 
 
 // Export sub-modules:
@@ -139,56 +104,29 @@ const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
-            case "honeycomb:index/board:Board":
-                return new Board(name, <any>undefined, { urn })
-            case "honeycomb:index/column:Column":
-                return new Column(name, <any>undefined, { urn })
+            case "honeycomb:index/apiKey:ApiKey":
+                return new ApiKey(name, <any>undefined, { urn })
+            case "honeycomb:index/burnAlert:BurnAlert":
+                return new BurnAlert(name, <any>undefined, { urn })
             case "honeycomb:index/dataset:Dataset":
                 return new Dataset(name, <any>undefined, { urn })
-            case "honeycomb:index/datasetDefinition:DatasetDefinition":
-                return new DatasetDefinition(name, <any>undefined, { urn })
-            case "honeycomb:index/derivedColumn:DerivedColumn":
-                return new DerivedColumn(name, <any>undefined, { urn })
-            case "honeycomb:index/emailRecipient:EmailRecipient":
-                return new EmailRecipient(name, <any>undefined, { urn })
-            case "honeycomb:index/mSTeamsRecipient:MSTeamsRecipient":
-                return new MSTeamsRecipient(name, <any>undefined, { urn })
-            case "honeycomb:index/marker:Marker":
-                return new Marker(name, <any>undefined, { urn })
-            case "honeycomb:index/markerSetting:MarkerSetting":
-                return new MarkerSetting(name, <any>undefined, { urn })
-            case "honeycomb:index/pagerDutyRecipient:PagerDutyRecipient":
-                return new PagerDutyRecipient(name, <any>undefined, { urn })
+            case "honeycomb:index/environment:Environment":
+                return new Environment(name, <any>undefined, { urn })
             case "honeycomb:index/query:Query":
                 return new Query(name, <any>undefined, { urn })
-            case "honeycomb:index/queryAnnotation:QueryAnnotation":
-                return new QueryAnnotation(name, <any>undefined, { urn })
-            case "honeycomb:index/sLO:SLO":
-                return new SLO(name, <any>undefined, { urn })
-            case "honeycomb:index/slackRecipient:SlackRecipient":
-                return new SlackRecipient(name, <any>undefined, { urn })
-            case "honeycomb:index/webhookRecipient:WebhookRecipient":
-                return new WebhookRecipient(name, <any>undefined, { urn })
+            case "honeycomb:index/trigger:Trigger":
+                return new Trigger(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }
     },
 };
-pulumi.runtime.registerResourceModule("honeycomb", "index/board", _module)
-pulumi.runtime.registerResourceModule("honeycomb", "index/column", _module)
+pulumi.runtime.registerResourceModule("honeycomb", "index/apiKey", _module)
+pulumi.runtime.registerResourceModule("honeycomb", "index/burnAlert", _module)
 pulumi.runtime.registerResourceModule("honeycomb", "index/dataset", _module)
-pulumi.runtime.registerResourceModule("honeycomb", "index/datasetDefinition", _module)
-pulumi.runtime.registerResourceModule("honeycomb", "index/derivedColumn", _module)
-pulumi.runtime.registerResourceModule("honeycomb", "index/emailRecipient", _module)
-pulumi.runtime.registerResourceModule("honeycomb", "index/mSTeamsRecipient", _module)
-pulumi.runtime.registerResourceModule("honeycomb", "index/marker", _module)
-pulumi.runtime.registerResourceModule("honeycomb", "index/markerSetting", _module)
-pulumi.runtime.registerResourceModule("honeycomb", "index/pagerDutyRecipient", _module)
+pulumi.runtime.registerResourceModule("honeycomb", "index/environment", _module)
 pulumi.runtime.registerResourceModule("honeycomb", "index/query", _module)
-pulumi.runtime.registerResourceModule("honeycomb", "index/queryAnnotation", _module)
-pulumi.runtime.registerResourceModule("honeycomb", "index/sLO", _module)
-pulumi.runtime.registerResourceModule("honeycomb", "index/slackRecipient", _module)
-pulumi.runtime.registerResourceModule("honeycomb", "index/webhookRecipient", _module)
+pulumi.runtime.registerResourceModule("honeycomb", "index/trigger", _module)
 pulumi.runtime.registerResourcePackage("honeycomb", {
     version: utilities.getVersion(),
     constructProvider: (name: string, type: string, urn: string): pulumi.ProviderResource => {

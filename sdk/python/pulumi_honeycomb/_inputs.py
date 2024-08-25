@@ -10,227 +10,501 @@ from typing import Any, Mapping, Optional, Sequence, Union, overload
 from . import _utilities
 
 __all__ = [
-    'BoardQueryArgs',
-    'BoardQueryGraphSettingsArgs',
+    'ApiKeyPermissionsArgs',
+    'BurnAlertRecipientArgs',
+    'BurnAlertRecipientNotificationDetailsArgs',
+    'GetAuthMetadataApiKeyAccessArgs',
+    'GetAuthMetadataEnvironmentArgs',
+    'GetAuthMetadataTeamArgs',
+    'GetDatasetsDetailFilterArgs',
+    'GetEnvironmentsDetailFilterArgs',
     'GetQuerySpecificationCalculationArgs',
     'GetQuerySpecificationFilterArgs',
     'GetQuerySpecificationHavingArgs',
     'GetQuerySpecificationOrderArgs',
-    'GetRecipientDetailFilterArgs',
-    'GetRecipientsDetailFilterArgs',
+    'GetSLOsDetailFilterArgs',
+    'TriggerEvaluationScheduleArgs',
+    'TriggerRecipientArgs',
+    'TriggerRecipientNotificationDetailsArgs',
+    'TriggerThresholdArgs',
 ]
 
 @pulumi.input_type
-class BoardQueryArgs:
+class ApiKeyPermissionsArgs:
     def __init__(__self__, *,
-                 query_id: pulumi.Input[str],
-                 caption: Optional[pulumi.Input[str]] = None,
-                 dataset: Optional[pulumi.Input[str]] = None,
-                 graph_settings: Optional[pulumi.Input['BoardQueryGraphSettingsArgs']] = None,
-                 query_annotation_id: Optional[pulumi.Input[str]] = None,
-                 query_style: Optional[pulumi.Input[str]] = None):
+                 create_datasets: Optional[pulumi.Input[bool]] = None):
         """
-        :param pulumi.Input[str] query_id: The ID of the Query to run.
-        :param pulumi.Input[str] caption: Descriptive text to contextualize the Query within the Board. Supports Markdown.
-        :param pulumi.Input[str] dataset: The dataset this query is associated with.
-        :param pulumi.Input['BoardQueryGraphSettingsArgs'] graph_settings: A map of boolean toggles to manages the settings for this query's graph on the board.
-               If a value is unspecified, it is assumed to be false.
-               Currently supported toggles are:
-        :param pulumi.Input[str] query_annotation_id: The ID of the Query Annotation to associate with this query.
-        :param pulumi.Input[str] query_style: How the query should be displayed within the board, either `graph` (the default), `table` or `combo`.
+        :param pulumi.Input[bool] create_datasets: Allow this key to create missing datasets when sending telemetry. Defaults to `false`.
         """
-        pulumi.set(__self__, "query_id", query_id)
-        if caption is not None:
-            pulumi.set(__self__, "caption", caption)
-        if dataset is not None:
-            warnings.warn("""Board Queries no longer require the dataset as they rely on the provided Query ID's dataset.""", DeprecationWarning)
-            pulumi.log.warn("""dataset is deprecated: Board Queries no longer require the dataset as they rely on the provided Query ID's dataset.""")
-        if dataset is not None:
-            pulumi.set(__self__, "dataset", dataset)
-        if graph_settings is not None:
-            pulumi.set(__self__, "graph_settings", graph_settings)
-        if query_annotation_id is not None:
-            pulumi.set(__self__, "query_annotation_id", query_annotation_id)
-        if query_style is not None:
-            pulumi.set(__self__, "query_style", query_style)
+        if create_datasets is not None:
+            pulumi.set(__self__, "create_datasets", create_datasets)
 
     @property
-    @pulumi.getter(name="queryId")
-    def query_id(self) -> pulumi.Input[str]:
+    @pulumi.getter(name="createDatasets")
+    def create_datasets(self) -> Optional[pulumi.Input[bool]]:
         """
-        The ID of the Query to run.
+        Allow this key to create missing datasets when sending telemetry. Defaults to `false`.
         """
-        return pulumi.get(self, "query_id")
+        return pulumi.get(self, "create_datasets")
 
-    @query_id.setter
-    def query_id(self, value: pulumi.Input[str]):
-        pulumi.set(self, "query_id", value)
-
-    @property
-    @pulumi.getter
-    def caption(self) -> Optional[pulumi.Input[str]]:
-        """
-        Descriptive text to contextualize the Query within the Board. Supports Markdown.
-        """
-        return pulumi.get(self, "caption")
-
-    @caption.setter
-    def caption(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "caption", value)
-
-    @property
-    @pulumi.getter
-    @_utilities.deprecated("""Board Queries no longer require the dataset as they rely on the provided Query ID's dataset.""")
-    def dataset(self) -> Optional[pulumi.Input[str]]:
-        """
-        The dataset this query is associated with.
-        """
-        return pulumi.get(self, "dataset")
-
-    @dataset.setter
-    def dataset(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "dataset", value)
-
-    @property
-    @pulumi.getter(name="graphSettings")
-    def graph_settings(self) -> Optional[pulumi.Input['BoardQueryGraphSettingsArgs']]:
-        """
-        A map of boolean toggles to manages the settings for this query's graph on the board.
-        If a value is unspecified, it is assumed to be false.
-        Currently supported toggles are:
-        """
-        return pulumi.get(self, "graph_settings")
-
-    @graph_settings.setter
-    def graph_settings(self, value: Optional[pulumi.Input['BoardQueryGraphSettingsArgs']]):
-        pulumi.set(self, "graph_settings", value)
-
-    @property
-    @pulumi.getter(name="queryAnnotationId")
-    def query_annotation_id(self) -> Optional[pulumi.Input[str]]:
-        """
-        The ID of the Query Annotation to associate with this query.
-        """
-        return pulumi.get(self, "query_annotation_id")
-
-    @query_annotation_id.setter
-    def query_annotation_id(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "query_annotation_id", value)
-
-    @property
-    @pulumi.getter(name="queryStyle")
-    def query_style(self) -> Optional[pulumi.Input[str]]:
-        """
-        How the query should be displayed within the board, either `graph` (the default), `table` or `combo`.
-        """
-        return pulumi.get(self, "query_style")
-
-    @query_style.setter
-    def query_style(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "query_style", value)
+    @create_datasets.setter
+    def create_datasets(self, value: Optional[pulumi.Input[bool]]):
+        pulumi.set(self, "create_datasets", value)
 
 
 @pulumi.input_type
-class BoardQueryGraphSettingsArgs:
+class BurnAlertRecipientArgs:
     def __init__(__self__, *,
-                 hide_markers: Optional[pulumi.Input[bool]] = None,
-                 log_scale: Optional[pulumi.Input[bool]] = None,
-                 omit_missing_values: Optional[pulumi.Input[bool]] = None,
-                 overlaid_charts: Optional[pulumi.Input[bool]] = None,
-                 stacked_graphs: Optional[pulumi.Input[bool]] = None,
-                 utc_xaxis: Optional[pulumi.Input[bool]] = None):
+                 id: Optional[pulumi.Input[str]] = None,
+                 notification_details: Optional[pulumi.Input['BurnAlertRecipientNotificationDetailsArgs']] = None,
+                 target: Optional[pulumi.Input[str]] = None,
+                 type: Optional[pulumi.Input[str]] = None):
         """
-        :param pulumi.Input[bool] hide_markers: Disable the overlay of Markers on the graph.
-        :param pulumi.Input[bool] log_scale: Set the graph's Y axis to Log scale.
-        :param pulumi.Input[bool] omit_missing_values: Enable interpolatation between datapoints when the intervening time buckets have no matching events.
-        :param pulumi.Input[bool] overlaid_charts: See [Graph Settings](https://docs.honeycomb.io/working-with-your-data/graph-settings/) in the documentation for more information on any individual setting.
-        :param pulumi.Input[bool] stacked_graphs: Enable the display of groups as stacked colored area under their line graphs.
-        :param pulumi.Input[bool] utc_xaxis: Set the graph's X axis to UTC.
+        :param pulumi.Input[str] id: The ID of an already existing recipient. Should not be used in combination with `type` and `target`.
+        :param pulumi.Input['BurnAlertRecipientNotificationDetailsArgs'] notification_details: a block of additional details to send along with the notification. The only supported option currently is `pagerduty_severity` which has a default value of `critical` but can be set to one of `info`, `warning`, `error`, or `critical` and must be used in combination with a PagerDuty recipient.
+               
+               | Type      | Target              |
+               |-----------|---------------------|
+               | email     | an email address    |
+               | pagerduty | _N/A_               |
+               | slack     | name of the channel |
+               | webhook   | name of the webhook |
+        :param pulumi.Input[str] target: Target of the recipient, this has another meaning depending on the type of recipient (see the table below). Should not be used in combination with `id`.
+        :param pulumi.Input[str] type: The type of the recipient, allowed types are `email`, `pagerduty`, `msteams`, `slack` and `webhook`. Should not be used in combination with `id`.
         """
-        if hide_markers is not None:
-            pulumi.set(__self__, "hide_markers", hide_markers)
-        if log_scale is not None:
-            pulumi.set(__self__, "log_scale", log_scale)
-        if omit_missing_values is not None:
-            pulumi.set(__self__, "omit_missing_values", omit_missing_values)
-        if overlaid_charts is not None:
-            pulumi.set(__self__, "overlaid_charts", overlaid_charts)
-        if stacked_graphs is not None:
-            pulumi.set(__self__, "stacked_graphs", stacked_graphs)
-        if utc_xaxis is not None:
-            pulumi.set(__self__, "utc_xaxis", utc_xaxis)
+        if id is not None:
+            pulumi.set(__self__, "id", id)
+        if notification_details is not None:
+            pulumi.set(__self__, "notification_details", notification_details)
+        if target is not None:
+            pulumi.set(__self__, "target", target)
+        if type is not None:
+            pulumi.set(__self__, "type", type)
 
     @property
-    @pulumi.getter(name="hideMarkers")
-    def hide_markers(self) -> Optional[pulumi.Input[bool]]:
+    @pulumi.getter
+    def id(self) -> Optional[pulumi.Input[str]]:
         """
-        Disable the overlay of Markers on the graph.
+        The ID of an already existing recipient. Should not be used in combination with `type` and `target`.
         """
-        return pulumi.get(self, "hide_markers")
+        return pulumi.get(self, "id")
 
-    @hide_markers.setter
-    def hide_markers(self, value: Optional[pulumi.Input[bool]]):
-        pulumi.set(self, "hide_markers", value)
-
-    @property
-    @pulumi.getter(name="logScale")
-    def log_scale(self) -> Optional[pulumi.Input[bool]]:
-        """
-        Set the graph's Y axis to Log scale.
-        """
-        return pulumi.get(self, "log_scale")
-
-    @log_scale.setter
-    def log_scale(self, value: Optional[pulumi.Input[bool]]):
-        pulumi.set(self, "log_scale", value)
+    @id.setter
+    def id(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "id", value)
 
     @property
-    @pulumi.getter(name="omitMissingValues")
-    def omit_missing_values(self) -> Optional[pulumi.Input[bool]]:
+    @pulumi.getter(name="notificationDetails")
+    def notification_details(self) -> Optional[pulumi.Input['BurnAlertRecipientNotificationDetailsArgs']]:
         """
-        Enable interpolatation between datapoints when the intervening time buckets have no matching events.
-        """
-        return pulumi.get(self, "omit_missing_values")
+        a block of additional details to send along with the notification. The only supported option currently is `pagerduty_severity` which has a default value of `critical` but can be set to one of `info`, `warning`, `error`, or `critical` and must be used in combination with a PagerDuty recipient.
 
-    @omit_missing_values.setter
-    def omit_missing_values(self, value: Optional[pulumi.Input[bool]]):
-        pulumi.set(self, "omit_missing_values", value)
-
-    @property
-    @pulumi.getter(name="overlaidCharts")
-    def overlaid_charts(self) -> Optional[pulumi.Input[bool]]:
+        | Type      | Target              |
+        |-----------|---------------------|
+        | email     | an email address    |
+        | pagerduty | _N/A_               |
+        | slack     | name of the channel |
+        | webhook   | name of the webhook |
         """
-        See [Graph Settings](https://docs.honeycomb.io/working-with-your-data/graph-settings/) in the documentation for more information on any individual setting.
-        """
-        return pulumi.get(self, "overlaid_charts")
+        return pulumi.get(self, "notification_details")
 
-    @overlaid_charts.setter
-    def overlaid_charts(self, value: Optional[pulumi.Input[bool]]):
-        pulumi.set(self, "overlaid_charts", value)
+    @notification_details.setter
+    def notification_details(self, value: Optional[pulumi.Input['BurnAlertRecipientNotificationDetailsArgs']]):
+        pulumi.set(self, "notification_details", value)
 
     @property
-    @pulumi.getter(name="stackedGraphs")
-    def stacked_graphs(self) -> Optional[pulumi.Input[bool]]:
+    @pulumi.getter
+    def target(self) -> Optional[pulumi.Input[str]]:
         """
-        Enable the display of groups as stacked colored area under their line graphs.
+        Target of the recipient, this has another meaning depending on the type of recipient (see the table below). Should not be used in combination with `id`.
         """
-        return pulumi.get(self, "stacked_graphs")
+        return pulumi.get(self, "target")
 
-    @stacked_graphs.setter
-    def stacked_graphs(self, value: Optional[pulumi.Input[bool]]):
-        pulumi.set(self, "stacked_graphs", value)
+    @target.setter
+    def target(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "target", value)
 
     @property
-    @pulumi.getter(name="utcXaxis")
-    def utc_xaxis(self) -> Optional[pulumi.Input[bool]]:
+    @pulumi.getter
+    def type(self) -> Optional[pulumi.Input[str]]:
         """
-        Set the graph's X axis to UTC.
+        The type of the recipient, allowed types are `email`, `pagerduty`, `msteams`, `slack` and `webhook`. Should not be used in combination with `id`.
         """
-        return pulumi.get(self, "utc_xaxis")
+        return pulumi.get(self, "type")
 
-    @utc_xaxis.setter
-    def utc_xaxis(self, value: Optional[pulumi.Input[bool]]):
-        pulumi.set(self, "utc_xaxis", value)
+    @type.setter
+    def type(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "type", value)
+
+
+@pulumi.input_type
+class BurnAlertRecipientNotificationDetailsArgs:
+    def __init__(__self__, *,
+                 pagerduty_severity: Optional[pulumi.Input[str]] = None):
+        """
+        :param pulumi.Input[str] pagerduty_severity: The severity to set with the PagerDuty notification. If no severity is provided, 'critical' is assumed.
+        """
+        if pagerduty_severity is not None:
+            pulumi.set(__self__, "pagerduty_severity", pagerduty_severity)
+
+    @property
+    @pulumi.getter(name="pagerdutySeverity")
+    def pagerduty_severity(self) -> Optional[pulumi.Input[str]]:
+        """
+        The severity to set with the PagerDuty notification. If no severity is provided, 'critical' is assumed.
+        """
+        return pulumi.get(self, "pagerduty_severity")
+
+    @pagerduty_severity.setter
+    def pagerduty_severity(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "pagerduty_severity", value)
+
+
+@pulumi.input_type
+class GetAuthMetadataApiKeyAccessArgs:
+    def __init__(__self__, *,
+                 boards: bool,
+                 columns: bool,
+                 datasets: bool,
+                 events: bool,
+                 markers: bool,
+                 queries: bool,
+                 recipients: bool,
+                 slos: bool,
+                 triggers: bool):
+        """
+        :param bool boards: `true` if this API key can create and manage Boards.
+        :param bool columns: `true` if this API key can create and manage can create and manage Queries, Columns, Derived Columns, and Query Annotations
+        :param bool datasets: `true` if this API key can create and manage Datasets.
+        :param bool events: `true` if this API key can key can send events to Honeycomb.
+        :param bool markers: `true` if this API key can create and manage Markers.
+        :param bool queries: `true` if this API key can execute existing Queries via the Query Data API.
+        :param bool recipients: `true` if this API key can create and manage Recipients.
+        :param bool slos: `true` if this API key can create and manage SLOs.
+        :param bool triggers: `true` if this API key can create and manage Triggers.
+        """
+        pulumi.set(__self__, "boards", boards)
+        pulumi.set(__self__, "columns", columns)
+        pulumi.set(__self__, "datasets", datasets)
+        pulumi.set(__self__, "events", events)
+        pulumi.set(__self__, "markers", markers)
+        pulumi.set(__self__, "queries", queries)
+        pulumi.set(__self__, "recipients", recipients)
+        pulumi.set(__self__, "slos", slos)
+        pulumi.set(__self__, "triggers", triggers)
+
+    @property
+    @pulumi.getter
+    def boards(self) -> bool:
+        """
+        `true` if this API key can create and manage Boards.
+        """
+        return pulumi.get(self, "boards")
+
+    @boards.setter
+    def boards(self, value: bool):
+        pulumi.set(self, "boards", value)
+
+    @property
+    @pulumi.getter
+    def columns(self) -> bool:
+        """
+        `true` if this API key can create and manage can create and manage Queries, Columns, Derived Columns, and Query Annotations
+        """
+        return pulumi.get(self, "columns")
+
+    @columns.setter
+    def columns(self, value: bool):
+        pulumi.set(self, "columns", value)
+
+    @property
+    @pulumi.getter
+    def datasets(self) -> bool:
+        """
+        `true` if this API key can create and manage Datasets.
+        """
+        return pulumi.get(self, "datasets")
+
+    @datasets.setter
+    def datasets(self, value: bool):
+        pulumi.set(self, "datasets", value)
+
+    @property
+    @pulumi.getter
+    def events(self) -> bool:
+        """
+        `true` if this API key can key can send events to Honeycomb.
+        """
+        return pulumi.get(self, "events")
+
+    @events.setter
+    def events(self, value: bool):
+        pulumi.set(self, "events", value)
+
+    @property
+    @pulumi.getter
+    def markers(self) -> bool:
+        """
+        `true` if this API key can create and manage Markers.
+        """
+        return pulumi.get(self, "markers")
+
+    @markers.setter
+    def markers(self, value: bool):
+        pulumi.set(self, "markers", value)
+
+    @property
+    @pulumi.getter
+    def queries(self) -> bool:
+        """
+        `true` if this API key can execute existing Queries via the Query Data API.
+        """
+        return pulumi.get(self, "queries")
+
+    @queries.setter
+    def queries(self, value: bool):
+        pulumi.set(self, "queries", value)
+
+    @property
+    @pulumi.getter
+    def recipients(self) -> bool:
+        """
+        `true` if this API key can create and manage Recipients.
+        """
+        return pulumi.get(self, "recipients")
+
+    @recipients.setter
+    def recipients(self, value: bool):
+        pulumi.set(self, "recipients", value)
+
+    @property
+    @pulumi.getter
+    def slos(self) -> bool:
+        """
+        `true` if this API key can create and manage SLOs.
+        """
+        return pulumi.get(self, "slos")
+
+    @slos.setter
+    def slos(self, value: bool):
+        pulumi.set(self, "slos", value)
+
+    @property
+    @pulumi.getter
+    def triggers(self) -> bool:
+        """
+        `true` if this API key can create and manage Triggers.
+        """
+        return pulumi.get(self, "triggers")
+
+    @triggers.setter
+    def triggers(self, value: bool):
+        pulumi.set(self, "triggers", value)
+
+
+@pulumi.input_type
+class GetAuthMetadataEnvironmentArgs:
+    def __init__(__self__, *,
+                 classic: bool,
+                 name: str,
+                 slug: str):
+        """
+        :param bool classic: `true` if this API key belongs to a [Honeycomb Classic](https://docs.honeycomb.io/honeycomb-classic/) environment.
+        :param str name: The name of the Team.
+        :param str slug: The slug of the Team.
+        """
+        pulumi.set(__self__, "classic", classic)
+        pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "slug", slug)
+
+    @property
+    @pulumi.getter
+    def classic(self) -> bool:
+        """
+        `true` if this API key belongs to a [Honeycomb Classic](https://docs.honeycomb.io/honeycomb-classic/) environment.
+        """
+        return pulumi.get(self, "classic")
+
+    @classic.setter
+    def classic(self, value: bool):
+        pulumi.set(self, "classic", value)
+
+    @property
+    @pulumi.getter
+    def name(self) -> str:
+        """
+        The name of the Team.
+        """
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: str):
+        pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter
+    def slug(self) -> str:
+        """
+        The slug of the Team.
+        """
+        return pulumi.get(self, "slug")
+
+    @slug.setter
+    def slug(self, value: str):
+        pulumi.set(self, "slug", value)
+
+
+@pulumi.input_type
+class GetAuthMetadataTeamArgs:
+    def __init__(__self__, *,
+                 name: str,
+                 slug: str):
+        """
+        :param str name: The name of the Team.
+        :param str slug: The slug of the Team.
+        """
+        pulumi.set(__self__, "name", name)
+        pulumi.set(__self__, "slug", slug)
+
+    @property
+    @pulumi.getter
+    def name(self) -> str:
+        """
+        The name of the Team.
+        """
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: str):
+        pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter
+    def slug(self) -> str:
+        """
+        The slug of the Team.
+        """
+        return pulumi.get(self, "slug")
+
+    @slug.setter
+    def slug(self, value: str):
+        pulumi.set(self, "slug", value)
+
+
+@pulumi.input_type
+class GetDatasetsDetailFilterArgs:
+    def __init__(__self__, *,
+                 name: str,
+                 value: Optional[str] = None,
+                 value_regex: Optional[str] = None):
+        """
+        :param str name: The name of the detail field to filter by. Currently only `name` is supported.
+        :param str value: The value of the detail field to match on.
+        :param str value_regex: A regular expression string to apply to the value of the detail field to match on.
+               
+               > **Note** one of `value` or `value_regex` is required.
+        """
+        pulumi.set(__self__, "name", name)
+        if value is not None:
+            pulumi.set(__self__, "value", value)
+        if value_regex is not None:
+            pulumi.set(__self__, "value_regex", value_regex)
+
+    @property
+    @pulumi.getter
+    def name(self) -> str:
+        """
+        The name of the detail field to filter by. Currently only `name` is supported.
+        """
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: str):
+        pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter
+    def value(self) -> Optional[str]:
+        """
+        The value of the detail field to match on.
+        """
+        return pulumi.get(self, "value")
+
+    @value.setter
+    def value(self, value: Optional[str]):
+        pulumi.set(self, "value", value)
+
+    @property
+    @pulumi.getter(name="valueRegex")
+    def value_regex(self) -> Optional[str]:
+        """
+        A regular expression string to apply to the value of the detail field to match on.
+
+        > **Note** one of `value` or `value_regex` is required.
+        """
+        return pulumi.get(self, "value_regex")
+
+    @value_regex.setter
+    def value_regex(self, value: Optional[str]):
+        pulumi.set(self, "value_regex", value)
+
+
+@pulumi.input_type
+class GetEnvironmentsDetailFilterArgs:
+    def __init__(__self__, *,
+                 name: str,
+                 value: Optional[str] = None,
+                 value_regex: Optional[str] = None):
+        """
+        :param str name: The name of the detail field to filter by. Currently only `name` is supported.
+        :param str value: The value of the detail field to match on.
+        :param str value_regex: A regular expression string to apply to the value of the detail field to match on.
+               
+               > **Note** one of `value` or `value_regex` is required.
+        """
+        pulumi.set(__self__, "name", name)
+        if value is not None:
+            pulumi.set(__self__, "value", value)
+        if value_regex is not None:
+            pulumi.set(__self__, "value_regex", value_regex)
+
+    @property
+    @pulumi.getter
+    def name(self) -> str:
+        """
+        The name of the detail field to filter by. Currently only `name` is supported.
+        """
+        return pulumi.get(self, "name")
+
+    @name.setter
+    def name(self, value: str):
+        pulumi.set(self, "name", value)
+
+    @property
+    @pulumi.getter
+    def value(self) -> Optional[str]:
+        """
+        The value of the detail field to match on.
+        """
+        return pulumi.get(self, "value")
+
+    @value.setter
+    def value(self, value: Optional[str]):
+        pulumi.set(self, "value", value)
+
+    @property
+    @pulumi.getter(name="valueRegex")
+    def value_regex(self) -> Optional[str]:
+        """
+        A regular expression string to apply to the value of the detail field to match on.
+
+        > **Note** one of `value` or `value_regex` is required.
+        """
+        return pulumi.get(self, "value_regex")
+
+    @value_regex.setter
+    def value_regex(self, value: Optional[str]):
+        pulumi.set(self, "value_regex", value)
 
 
 @pulumi.input_type
@@ -276,46 +550,18 @@ class GetQuerySpecificationFilterArgs:
     def __init__(__self__, *,
                  column: str,
                  op: str,
-                 value: Optional[str] = None,
-                 value_boolean: Optional[bool] = None,
-                 value_float: Optional[float] = None,
-                 value_integer: Optional[int] = None,
-                 value_string: Optional[str] = None):
+                 value: Optional[str] = None):
         """
         :param str column: The column to apply the filter to.
         :param str op: The operator to apply, see the supported list of filter operators at [Filter Operators](https://docs.honeycomb.io/api/query-specification/#filter-operators). Not all operators require a value.
         :param str value: The value used for the filter. Not needed if op is `exists` or `not-exists`. Mutually exclusive with the other `value_*` options.
-        :param bool value_boolean: Deprecated: use 'value' instead. The value used for the filter when the column is a boolean. Mutually exclusive with `value` and the other `value_*` options.
                
                * > **NOTE** Filter op `in` and `not-in` expect an array of strings as value. Use the `value` attribute and pass the values in single string separated by `,` without additional spaces (similar to the query builder in the UI). For example: the list `foo`, `bar` becomes `foo,bar`.
-        :param float value_float: Deprecated: use 'value' instead. The value used for the filter when the column is a float. Mutually exclusive with `value` and the other `value_*` options.
-        :param int value_integer: Deprecated: use 'value' instead. The value used for the filter when the column is an integer. Mutually exclusive with `value` and the other `value_*` options.
-        :param str value_string: Deprecated: use 'value' instead. The value used for the filter when the column is a string. Mutually exclusive with `value` and the other `value_*` options.
         """
         pulumi.set(__self__, "column", column)
         pulumi.set(__self__, "op", op)
         if value is not None:
             pulumi.set(__self__, "value", value)
-        if value_boolean is not None:
-            warnings.warn("""Use of attribute `value_boolean` is discouraged and will fail to plan if using 'false'. Use of `value` is encouraged.""", DeprecationWarning)
-            pulumi.log.warn("""value_boolean is deprecated: Use of attribute `value_boolean` is discouraged and will fail to plan if using 'false'. Use of `value` is encouraged.""")
-        if value_boolean is not None:
-            pulumi.set(__self__, "value_boolean", value_boolean)
-        if value_float is not None:
-            warnings.warn("""Use of attribute `value_float` is discouraged and will fail to plan if using '0'. Use of `value` is encouraged.""", DeprecationWarning)
-            pulumi.log.warn("""value_float is deprecated: Use of attribute `value_float` is discouraged and will fail to plan if using '0'. Use of `value` is encouraged.""")
-        if value_float is not None:
-            pulumi.set(__self__, "value_float", value_float)
-        if value_integer is not None:
-            warnings.warn("""Use of attribute `value_integer` is discouraged and will fail to plan if using '0'. Use of `value` is encouraged.""", DeprecationWarning)
-            pulumi.log.warn("""value_integer is deprecated: Use of attribute `value_integer` is discouraged and will fail to plan if using '0'. Use of `value` is encouraged.""")
-        if value_integer is not None:
-            pulumi.set(__self__, "value_integer", value_integer)
-        if value_string is not None:
-            warnings.warn("""Use of attribute `value_string` is discouraged and will fail to plan if using the empty string. Use of `value` is encouraged.""", DeprecationWarning)
-            pulumi.log.warn("""value_string is deprecated: Use of attribute `value_string` is discouraged and will fail to plan if using the empty string. Use of `value` is encouraged.""")
-        if value_string is not None:
-            pulumi.set(__self__, "value_string", value_string)
 
     @property
     @pulumi.getter
@@ -346,66 +592,14 @@ class GetQuerySpecificationFilterArgs:
     def value(self) -> Optional[str]:
         """
         The value used for the filter. Not needed if op is `exists` or `not-exists`. Mutually exclusive with the other `value_*` options.
+
+        * > **NOTE** Filter op `in` and `not-in` expect an array of strings as value. Use the `value` attribute and pass the values in single string separated by `,` without additional spaces (similar to the query builder in the UI). For example: the list `foo`, `bar` becomes `foo,bar`.
         """
         return pulumi.get(self, "value")
 
     @value.setter
     def value(self, value: Optional[str]):
         pulumi.set(self, "value", value)
-
-    @property
-    @pulumi.getter(name="valueBoolean")
-    @_utilities.deprecated("""Use of attribute `value_boolean` is discouraged and will fail to plan if using 'false'. Use of `value` is encouraged.""")
-    def value_boolean(self) -> Optional[bool]:
-        """
-        Deprecated: use 'value' instead. The value used for the filter when the column is a boolean. Mutually exclusive with `value` and the other `value_*` options.
-
-        * > **NOTE** Filter op `in` and `not-in` expect an array of strings as value. Use the `value` attribute and pass the values in single string separated by `,` without additional spaces (similar to the query builder in the UI). For example: the list `foo`, `bar` becomes `foo,bar`.
-        """
-        return pulumi.get(self, "value_boolean")
-
-    @value_boolean.setter
-    def value_boolean(self, value: Optional[bool]):
-        pulumi.set(self, "value_boolean", value)
-
-    @property
-    @pulumi.getter(name="valueFloat")
-    @_utilities.deprecated("""Use of attribute `value_float` is discouraged and will fail to plan if using '0'. Use of `value` is encouraged.""")
-    def value_float(self) -> Optional[float]:
-        """
-        Deprecated: use 'value' instead. The value used for the filter when the column is a float. Mutually exclusive with `value` and the other `value_*` options.
-        """
-        return pulumi.get(self, "value_float")
-
-    @value_float.setter
-    def value_float(self, value: Optional[float]):
-        pulumi.set(self, "value_float", value)
-
-    @property
-    @pulumi.getter(name="valueInteger")
-    @_utilities.deprecated("""Use of attribute `value_integer` is discouraged and will fail to plan if using '0'. Use of `value` is encouraged.""")
-    def value_integer(self) -> Optional[int]:
-        """
-        Deprecated: use 'value' instead. The value used for the filter when the column is an integer. Mutually exclusive with `value` and the other `value_*` options.
-        """
-        return pulumi.get(self, "value_integer")
-
-    @value_integer.setter
-    def value_integer(self, value: Optional[int]):
-        pulumi.set(self, "value_integer", value)
-
-    @property
-    @pulumi.getter(name="valueString")
-    @_utilities.deprecated("""Use of attribute `value_string` is discouraged and will fail to plan if using the empty string. Use of `value` is encouraged.""")
-    def value_string(self) -> Optional[str]:
-        """
-        Deprecated: use 'value' instead. The value used for the filter when the column is a string. Mutually exclusive with `value` and the other `value_*` options.
-        """
-        return pulumi.get(self, "value_string")
-
-    @value_string.setter
-    def value_string(self, value: Optional[str]):
-        pulumi.set(self, "value_string", value)
 
 
 @pulumi.input_type
@@ -487,7 +681,7 @@ class GetQuerySpecificationOrderArgs:
                  op: Optional[str] = None,
                  order: Optional[str] = None):
         """
-        :param str column: Either a column present in `breakdown` or a column to `op` applies to.
+        :param str column: Either a column present in `breakdown` or a column that `op` applies to.
         :param str op: The calculation operator to apply, see the supported list of calculation operators at [Calculation Operators](https://docs.honeycomb.io/api/query-specification/#calculation-operators).
         :param str order: The sort direction, if set must be `ascending` or `descending`.
         """
@@ -502,7 +696,7 @@ class GetQuerySpecificationOrderArgs:
     @pulumi.getter
     def column(self) -> Optional[str]:
         """
-        Either a column present in `breakdown` or a column to `op` applies to.
+        Either a column present in `breakdown` or a column that `op` applies to.
         """
         return pulumi.get(self, "column")
 
@@ -536,13 +730,13 @@ class GetQuerySpecificationOrderArgs:
 
 
 @pulumi.input_type
-class GetRecipientDetailFilterArgs:
+class GetSLOsDetailFilterArgs:
     def __init__(__self__, *,
                  name: str,
                  value: Optional[str] = None,
                  value_regex: Optional[str] = None):
         """
-        :param str name: The name of the detail field to filter by. Allowed values are `address`, `channel`, `name`, `integration_name`, and `url`.
+        :param str name: The name of the detail field to filter by. Currently only `name` is supported.
         :param str value: The value of the detail field to match on.
         :param str value_regex: A regular expression string to apply to the value of the detail field to match on.
                
@@ -558,7 +752,7 @@ class GetRecipientDetailFilterArgs:
     @pulumi.getter
     def name(self) -> str:
         """
-        The name of the detail field to filter by. Allowed values are `address`, `channel`, `name`, `integration_name`, and `url`.
+        The name of the detail field to filter by. Currently only `name` is supported.
         """
         return pulumi.get(self, "name")
 
@@ -594,60 +788,221 @@ class GetRecipientDetailFilterArgs:
 
 
 @pulumi.input_type
-class GetRecipientsDetailFilterArgs:
+class TriggerEvaluationScheduleArgs:
     def __init__(__self__, *,
-                 name: str,
-                 value: Optional[str] = None,
-                 value_regex: Optional[str] = None):
+                 days_of_weeks: pulumi.Input[Sequence[pulumi.Input[str]]],
+                 end_time: pulumi.Input[str],
+                 start_time: pulumi.Input[str]):
         """
-        :param str name: The name of the detail field to filter by. Allowed values are `address`, `channel`, `name`, `integration_name`, and `url`.
-        :param str value: The value of the detail field to match on.
-        :param str value_regex: A regular expression string to apply to the value of the detail field to match on.
+        :param pulumi.Input[Sequence[pulumi.Input[str]]] days_of_weeks: A list of days of the week (in lowercase) to evaluate the trigger on
+        :param pulumi.Input[str] end_time: UTC time to stop evaluating the trigger in HH:mm format (e.g. `13:00`)
+        :param pulumi.Input[str] start_time: UTC time to start evaluating the trigger in HH:mm format (e.g. `13:00`)
+        """
+        pulumi.set(__self__, "days_of_weeks", days_of_weeks)
+        pulumi.set(__self__, "end_time", end_time)
+        pulumi.set(__self__, "start_time", start_time)
+
+    @property
+    @pulumi.getter(name="daysOfWeeks")
+    def days_of_weeks(self) -> pulumi.Input[Sequence[pulumi.Input[str]]]:
+        """
+        A list of days of the week (in lowercase) to evaluate the trigger on
+        """
+        return pulumi.get(self, "days_of_weeks")
+
+    @days_of_weeks.setter
+    def days_of_weeks(self, value: pulumi.Input[Sequence[pulumi.Input[str]]]):
+        pulumi.set(self, "days_of_weeks", value)
+
+    @property
+    @pulumi.getter(name="endTime")
+    def end_time(self) -> pulumi.Input[str]:
+        """
+        UTC time to stop evaluating the trigger in HH:mm format (e.g. `13:00`)
+        """
+        return pulumi.get(self, "end_time")
+
+    @end_time.setter
+    def end_time(self, value: pulumi.Input[str]):
+        pulumi.set(self, "end_time", value)
+
+    @property
+    @pulumi.getter(name="startTime")
+    def start_time(self) -> pulumi.Input[str]:
+        """
+        UTC time to start evaluating the trigger in HH:mm format (e.g. `13:00`)
+        """
+        return pulumi.get(self, "start_time")
+
+    @start_time.setter
+    def start_time(self, value: pulumi.Input[str]):
+        pulumi.set(self, "start_time", value)
+
+
+@pulumi.input_type
+class TriggerRecipientArgs:
+    def __init__(__self__, *,
+                 id: Optional[pulumi.Input[str]] = None,
+                 notification_details: Optional[pulumi.Input['TriggerRecipientNotificationDetailsArgs']] = None,
+                 target: Optional[pulumi.Input[str]] = None,
+                 type: Optional[pulumi.Input[str]] = None):
+        """
+        :param pulumi.Input[str] id: The ID of an already existing recipient. Cannot not be used in combination with `type` and `target`.
+        :param pulumi.Input['TriggerRecipientNotificationDetailsArgs'] notification_details: a block of additional details to send along with the notification. The only supported option currently is `pagerduty_severity` which has a default value of `critical` but can be set to one of `info`, `warning`, `error`, or `critical` and must be used in combination with a PagerDuty recipient.
                
-               > **Note** one of `value` or `value_regex` is required.
+               Type      | Target
+               ----------|-------------------------
+               email     | an email address
+               marker    | name of the marker
+               pagerduty | _N/A_
+               slack     | name of the channel
+               webhook   | name of the webhook
+        :param pulumi.Input[str] target: Target of the trigger recipient, this has another meaning depending on the type of recipient (see the table below).
+               Cannot not be used in combination with `id`.
+        :param pulumi.Input[str] type: The type of the trigger recipient, allowed types are `email`, `marker`, `msteams`, `pagerduty`, `slack` and `webhook`.
+               Cannot not be used in combination with `id`.
         """
-        pulumi.set(__self__, "name", name)
-        if value is not None:
-            pulumi.set(__self__, "value", value)
-        if value_regex is not None:
-            pulumi.set(__self__, "value_regex", value_regex)
+        if id is not None:
+            pulumi.set(__self__, "id", id)
+        if notification_details is not None:
+            pulumi.set(__self__, "notification_details", notification_details)
+        if target is not None:
+            pulumi.set(__self__, "target", target)
+        if type is not None:
+            pulumi.set(__self__, "type", type)
 
     @property
     @pulumi.getter
-    def name(self) -> str:
+    def id(self) -> Optional[pulumi.Input[str]]:
         """
-        The name of the detail field to filter by. Allowed values are `address`, `channel`, `name`, `integration_name`, and `url`.
+        The ID of an already existing recipient. Cannot not be used in combination with `type` and `target`.
         """
-        return pulumi.get(self, "name")
+        return pulumi.get(self, "id")
 
-    @name.setter
-    def name(self, value: str):
-        pulumi.set(self, "name", value)
+    @id.setter
+    def id(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "id", value)
+
+    @property
+    @pulumi.getter(name="notificationDetails")
+    def notification_details(self) -> Optional[pulumi.Input['TriggerRecipientNotificationDetailsArgs']]:
+        """
+        a block of additional details to send along with the notification. The only supported option currently is `pagerduty_severity` which has a default value of `critical` but can be set to one of `info`, `warning`, `error`, or `critical` and must be used in combination with a PagerDuty recipient.
+
+        Type      | Target
+        ----------|-------------------------
+        email     | an email address
+        marker    | name of the marker
+        pagerduty | _N/A_
+        slack     | name of the channel
+        webhook   | name of the webhook
+        """
+        return pulumi.get(self, "notification_details")
+
+    @notification_details.setter
+    def notification_details(self, value: Optional[pulumi.Input['TriggerRecipientNotificationDetailsArgs']]):
+        pulumi.set(self, "notification_details", value)
 
     @property
     @pulumi.getter
-    def value(self) -> Optional[str]:
+    def target(self) -> Optional[pulumi.Input[str]]:
         """
-        The value of the detail field to match on.
+        Target of the trigger recipient, this has another meaning depending on the type of recipient (see the table below).
+        Cannot not be used in combination with `id`.
+        """
+        return pulumi.get(self, "target")
+
+    @target.setter
+    def target(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "target", value)
+
+    @property
+    @pulumi.getter
+    def type(self) -> Optional[pulumi.Input[str]]:
+        """
+        The type of the trigger recipient, allowed types are `email`, `marker`, `msteams`, `pagerduty`, `slack` and `webhook`.
+        Cannot not be used in combination with `id`.
+        """
+        return pulumi.get(self, "type")
+
+    @type.setter
+    def type(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "type", value)
+
+
+@pulumi.input_type
+class TriggerRecipientNotificationDetailsArgs:
+    def __init__(__self__, *,
+                 pagerduty_severity: Optional[pulumi.Input[str]] = None):
+        """
+        :param pulumi.Input[str] pagerduty_severity: The severity to set with the PagerDuty notification. If no severity is provided, 'critical' is assumed.
+        """
+        if pagerduty_severity is not None:
+            pulumi.set(__self__, "pagerduty_severity", pagerduty_severity)
+
+    @property
+    @pulumi.getter(name="pagerdutySeverity")
+    def pagerduty_severity(self) -> Optional[pulumi.Input[str]]:
+        """
+        The severity to set with the PagerDuty notification. If no severity is provided, 'critical' is assumed.
+        """
+        return pulumi.get(self, "pagerduty_severity")
+
+    @pagerduty_severity.setter
+    def pagerduty_severity(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "pagerduty_severity", value)
+
+
+@pulumi.input_type
+class TriggerThresholdArgs:
+    def __init__(__self__, *,
+                 op: pulumi.Input[str],
+                 value: pulumi.Input[float],
+                 exceeded_limit: Optional[pulumi.Input[int]] = None):
+        """
+        :param pulumi.Input[str] op: The operator to apply, allowed threshold operators are `>`, `>=`, `<`, and `<=`.
+        :param pulumi.Input[float] value: The value to be used with the operator.
+        :param pulumi.Input[int] exceeded_limit: The number of times the threshold is met before an alert is sent, must be between 1 and 5. Defaults to `1`.
+        """
+        pulumi.set(__self__, "op", op)
+        pulumi.set(__self__, "value", value)
+        if exceeded_limit is not None:
+            pulumi.set(__self__, "exceeded_limit", exceeded_limit)
+
+    @property
+    @pulumi.getter
+    def op(self) -> pulumi.Input[str]:
+        """
+        The operator to apply, allowed threshold operators are `>`, `>=`, `<`, and `<=`.
+        """
+        return pulumi.get(self, "op")
+
+    @op.setter
+    def op(self, value: pulumi.Input[str]):
+        pulumi.set(self, "op", value)
+
+    @property
+    @pulumi.getter
+    def value(self) -> pulumi.Input[float]:
+        """
+        The value to be used with the operator.
         """
         return pulumi.get(self, "value")
 
     @value.setter
-    def value(self, value: Optional[str]):
+    def value(self, value: pulumi.Input[float]):
         pulumi.set(self, "value", value)
 
     @property
-    @pulumi.getter(name="valueRegex")
-    def value_regex(self) -> Optional[str]:
+    @pulumi.getter(name="exceededLimit")
+    def exceeded_limit(self) -> Optional[pulumi.Input[int]]:
         """
-        A regular expression string to apply to the value of the detail field to match on.
-
-        > **Note** one of `value` or `value_regex` is required.
+        The number of times the threshold is met before an alert is sent, must be between 1 and 5. Defaults to `1`.
         """
-        return pulumi.get(self, "value_regex")
+        return pulumi.get(self, "exceeded_limit")
 
-    @value_regex.setter
-    def value_regex(self, value: Optional[str]):
-        pulumi.set(self, "value_regex", value)
+    @exceeded_limit.setter
+    def exceeded_limit(self, value: Optional[pulumi.Input[int]]):
+        pulumi.set(self, "exceeded_limit", value)
 
 

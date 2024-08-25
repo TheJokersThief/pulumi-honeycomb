@@ -5,62 +5,143 @@ import * as pulumi from "@pulumi/pulumi";
 import * as inputs from "../types/input";
 import * as outputs from "../types/output";
 
-export interface BoardQuery {
+export interface ApiKeyPermissions {
     /**
-     * Descriptive text to contextualize the Query within the Board. Supports Markdown.
+     * Allow this key to create missing datasets when sending telemetry. Defaults to `false`.
      */
-    caption?: string;
-    /**
-     * The dataset this query is associated with.
-     *
-     * @deprecated Board Queries no longer require the dataset as they rely on the provided Query ID's dataset.
-     */
-    dataset: string;
-    /**
-     * A map of boolean toggles to manages the settings for this query's graph on the board.
-     * If a value is unspecified, it is assumed to be false.
-     * Currently supported toggles are:
-     */
-    graphSettings: outputs.BoardQueryGraphSettings;
-    /**
-     * The ID of the Query Annotation to associate with this query.
-     */
-    queryAnnotationId?: string;
-    /**
-     * The ID of the Query to run.
-     */
-    queryId: string;
-    /**
-     * How the query should be displayed within the board, either `graph` (the default), `table` or `combo`.
-     */
-    queryStyle: string;
+    createDatasets: boolean;
 }
 
-export interface BoardQueryGraphSettings {
+export interface BurnAlertRecipient {
     /**
-     * Disable the overlay of Markers on the graph.
+     * The ID of an already existing recipient. Should not be used in combination with `type` and `target`.
      */
-    hideMarkers?: boolean;
+    id: string;
     /**
-     * Set the graph's Y axis to Log scale.
+     * a block of additional details to send along with the notification. The only supported option currently is `pagerdutySeverity` which has a default value of `critical` but can be set to one of `info`, `warning`, `error`, or `critical` and must be used in combination with a PagerDuty recipient.
+     *
+     * | Type      | Target              |
+     * |-----------|---------------------|
+     * | email     | an email address    |
+     * | pagerduty | _N/A_               |
+     * | slack     | name of the channel |
+     * | webhook   | name of the webhook |
      */
-    logScale?: boolean;
+    notificationDetails?: outputs.BurnAlertRecipientNotificationDetails;
     /**
-     * Enable interpolatation between datapoints when the intervening time buckets have no matching events.
+     * Target of the recipient, this has another meaning depending on the type of recipient (see the table below). Should not be used in combination with `id`.
      */
-    omitMissingValues?: boolean;
+    target: string;
     /**
-     * See [Graph Settings](https://docs.honeycomb.io/working-with-your-data/graph-settings/) in the documentation for more information on any individual setting.
+     * The type of the recipient, allowed types are `email`, `pagerduty`, `msteams`, `slack` and `webhook`. Should not be used in combination with `id`.
      */
-    overlaidCharts?: boolean;
+    type: string;
+}
+
+export interface BurnAlertRecipientNotificationDetails {
     /**
-     * Enable the display of groups as stacked colored area under their line graphs.
+     * The severity to set with the PagerDuty notification. If no severity is provided, 'critical' is assumed.
      */
-    stackedGraphs?: boolean;
+    pagerdutySeverity: string;
+}
+
+export interface GetAuthMetadataApiKeyAccess {
     /**
-     * Set the graph's X axis to UTC.
+     * `true` if this API key can create and manage Boards.
      */
-    utcXaxis?: boolean;
+    boards: boolean;
+    /**
+     * `true` if this API key can create and manage can create and manage Queries, Columns, Derived Columns, and Query Annotations
+     */
+    columns: boolean;
+    /**
+     * `true` if this API key can create and manage Datasets.
+     */
+    datasets: boolean;
+    /**
+     * `true` if this API key can key can send events to Honeycomb.
+     */
+    events: boolean;
+    /**
+     * `true` if this API key can create and manage Markers.
+     */
+    markers: boolean;
+    /**
+     * `true` if this API key can execute existing Queries via the Query Data API.
+     */
+    queries: boolean;
+    /**
+     * `true` if this API key can create and manage Recipients.
+     */
+    recipients: boolean;
+    /**
+     * `true` if this API key can create and manage SLOs.
+     */
+    slos: boolean;
+    /**
+     * `true` if this API key can create and manage Triggers.
+     */
+    triggers: boolean;
+}
+
+export interface GetAuthMetadataEnvironment {
+    /**
+     * `true` if this API key belongs to a [Honeycomb Classic](https://docs.honeycomb.io/honeycomb-classic/) environment.
+     */
+    classic: boolean;
+    /**
+     * The name of the Team.
+     */
+    name: string;
+    /**
+     * The slug of the Team.
+     */
+    slug: string;
+}
+
+export interface GetAuthMetadataTeam {
+    /**
+     * The name of the Team.
+     */
+    name: string;
+    /**
+     * The slug of the Team.
+     */
+    slug: string;
+}
+
+export interface GetDatasetsDetailFilter {
+    /**
+     * The name of the detail field to filter by. Currently only `name` is supported.
+     */
+    name: string;
+    /**
+     * The value of the detail field to match on.
+     */
+    value?: string;
+    /**
+     * A regular expression string to apply to the value of the detail field to match on.
+     *
+     * > **Note** one of `value` or `valueRegex` is required.
+     */
+    valueRegex?: string;
+}
+
+export interface GetEnvironmentsDetailFilter {
+    /**
+     * The name of the detail field to filter by. Currently only `name` is supported.
+     */
+    name: string;
+    /**
+     * The value of the detail field to match on.
+     */
+    value?: string;
+    /**
+     * A regular expression string to apply to the value of the detail field to match on.
+     *
+     * > **Note** one of `value` or `valueRegex` is required.
+     */
+    valueRegex?: string;
 }
 
 export interface GetQuerySpecificationCalculation {
@@ -85,34 +166,10 @@ export interface GetQuerySpecificationFilter {
     op: string;
     /**
      * The value used for the filter. Not needed if op is `exists` or `not-exists`. Mutually exclusive with the other `value_*` options.
-     */
-    value?: string;
-    /**
-     * Deprecated: use 'value' instead. The value used for the filter when the column is a boolean. Mutually exclusive with `value` and the other `value_*` options.
      *
      * * > **NOTE** Filter op `in` and `not-in` expect an array of strings as value. Use the `value` attribute and pass the values in single string separated by `,` without additional spaces (similar to the query builder in the UI). For example: the list `foo`, `bar` becomes `foo,bar`.
-     *
-     * @deprecated Use of attribute `valueBoolean` is discouraged and will fail to plan if using 'false'. Use of `value` is encouraged.
      */
-    valueBoolean?: boolean;
-    /**
-     * Deprecated: use 'value' instead. The value used for the filter when the column is a float. Mutually exclusive with `value` and the other `value_*` options.
-     *
-     * @deprecated Use of attribute `valueFloat` is discouraged and will fail to plan if using '0'. Use of `value` is encouraged.
-     */
-    valueFloat?: number;
-    /**
-     * Deprecated: use 'value' instead. The value used for the filter when the column is an integer. Mutually exclusive with `value` and the other `value_*` options.
-     *
-     * @deprecated Use of attribute `valueInteger` is discouraged and will fail to plan if using '0'. Use of `value` is encouraged.
-     */
-    valueInteger?: number;
-    /**
-     * Deprecated: use 'value' instead. The value used for the filter when the column is a string. Mutually exclusive with `value` and the other `value_*` options.
-     *
-     * @deprecated Use of attribute `valueString` is discouraged and will fail to plan if using the empty string. Use of `value` is encouraged.
-     */
-    valueString?: string;
+    value?: string;
 }
 
 export interface GetQuerySpecificationHaving {
@@ -138,7 +195,7 @@ export interface GetQuerySpecificationHaving {
 
 export interface GetQuerySpecificationOrder {
     /**
-     * Either a column present in `breakdown` or a column to `op` applies to.
+     * Either a column present in `breakdown` or a column that `op` applies to.
      */
     column?: string;
     /**
@@ -151,9 +208,9 @@ export interface GetQuerySpecificationOrder {
     order?: string;
 }
 
-export interface GetRecipientDetailFilter {
+export interface GetSLOsDetailFilter {
     /**
-     * The name of the detail field to filter by. Allowed values are `address`, `channel`, `name`, `integrationName`, and `url`.
+     * The name of the detail field to filter by. Currently only `name` is supported.
      */
     name: string;
     /**
@@ -168,20 +225,69 @@ export interface GetRecipientDetailFilter {
     valueRegex?: string;
 }
 
-export interface GetRecipientsDetailFilter {
+export interface TriggerEvaluationSchedule {
     /**
-     * The name of the detail field to filter by. Allowed values are `address`, `channel`, `name`, `integrationName`, and `url`.
+     * A list of days of the week (in lowercase) to evaluate the trigger on
      */
-    name: string;
+    daysOfWeeks: string[];
     /**
-     * The value of the detail field to match on.
+     * UTC time to stop evaluating the trigger in HH:mm format (e.g. `13:00`)
      */
-    value?: string;
+    endTime: string;
     /**
-     * A regular expression string to apply to the value of the detail field to match on.
+     * UTC time to start evaluating the trigger in HH:mm format (e.g. `13:00`)
+     */
+    startTime: string;
+}
+
+export interface TriggerRecipient {
+    /**
+     * The ID of an already existing recipient. Cannot not be used in combination with `type` and `target`.
+     */
+    id: string;
+    /**
+     * a block of additional details to send along with the notification. The only supported option currently is `pagerdutySeverity` which has a default value of `critical` but can be set to one of `info`, `warning`, `error`, or `critical` and must be used in combination with a PagerDuty recipient.
      *
-     * > **Note** one of `value` or `valueRegex` is required.
+     * Type      | Target
+     * ----------|-------------------------
+     * email     | an email address
+     * marker    | name of the marker
+     * pagerduty | _N/A_
+     * slack     | name of the channel
+     * webhook   | name of the webhook
      */
-    valueRegex?: string;
+    notificationDetails?: outputs.TriggerRecipientNotificationDetails;
+    /**
+     * Target of the trigger recipient, this has another meaning depending on the type of recipient (see the table below).
+     * Cannot not be used in combination with `id`.
+     */
+    target: string;
+    /**
+     * The type of the trigger recipient, allowed types are `email`, `marker`, `msteams`, `pagerduty`, `slack` and `webhook`.
+     * Cannot not be used in combination with `id`.
+     */
+    type: string;
+}
+
+export interface TriggerRecipientNotificationDetails {
+    /**
+     * The severity to set with the PagerDuty notification. If no severity is provided, 'critical' is assumed.
+     */
+    pagerdutySeverity: string;
+}
+
+export interface TriggerThreshold {
+    /**
+     * The number of times the threshold is met before an alert is sent, must be between 1 and 5. Defaults to `1`.
+     */
+    exceededLimit: number;
+    /**
+     * The operator to apply, allowed threshold operators are `>`, `>=`, `<`, and `<=`.
+     */
+    op: string;
+    /**
+     * The value to be used with the operator.
+     */
+    value: number;
 }
 

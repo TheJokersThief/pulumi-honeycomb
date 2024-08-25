@@ -15,18 +15,28 @@ __all__ = ['ProviderArgs', 'Provider']
 class ProviderArgs:
     def __init__(__self__, *,
                  api_key: Optional[pulumi.Input[str]] = None,
+                 api_key_id: Optional[pulumi.Input[str]] = None,
+                 api_key_secret: Optional[pulumi.Input[str]] = None,
                  api_url: Optional[pulumi.Input[str]] = None,
                  debug: Optional[pulumi.Input[bool]] = None):
         """
         The set of arguments for constructing a Provider resource.
         :param pulumi.Input[str] api_key: The Honeycomb API key to use. It can also be set via the `HONEYCOMB_API_KEY` or `HONEYCOMBIO_APIKEY` environment
                variables.
+        :param pulumi.Input[str] api_key_id: The ID portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_ID` environment
+               variable.
+        :param pulumi.Input[str] api_key_secret: The secret portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_SECRET`
+               environment variable.
         :param pulumi.Input[str] api_url: Override the URL of the Honeycomb API. Defaults to `https://api.honeycomb.io`. It can also be set via the
                `HONEYCOMB_API_ENDPOINT` environment variable.
         :param pulumi.Input[bool] debug: Enable the API client's debug logs. By default, a `TF_LOG` setting of debug or higher will enable this.
         """
         if api_key is not None:
             pulumi.set(__self__, "api_key", api_key)
+        if api_key_id is not None:
+            pulumi.set(__self__, "api_key_id", api_key_id)
+        if api_key_secret is not None:
+            pulumi.set(__self__, "api_key_secret", api_key_secret)
         if api_url is not None:
             pulumi.set(__self__, "api_url", api_url)
         if debug is not None:
@@ -44,6 +54,32 @@ class ProviderArgs:
     @api_key.setter
     def api_key(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "api_key", value)
+
+    @property
+    @pulumi.getter(name="apiKeyId")
+    def api_key_id(self) -> Optional[pulumi.Input[str]]:
+        """
+        The ID portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_ID` environment
+        variable.
+        """
+        return pulumi.get(self, "api_key_id")
+
+    @api_key_id.setter
+    def api_key_id(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "api_key_id", value)
+
+    @property
+    @pulumi.getter(name="apiKeySecret")
+    def api_key_secret(self) -> Optional[pulumi.Input[str]]:
+        """
+        The secret portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_SECRET`
+        environment variable.
+        """
+        return pulumi.get(self, "api_key_secret")
+
+    @api_key_secret.setter
+    def api_key_secret(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "api_key_secret", value)
 
     @property
     @pulumi.getter(name="apiUrl")
@@ -77,6 +113,8 @@ class Provider(pulumi.ProviderResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  api_key: Optional[pulumi.Input[str]] = None,
+                 api_key_id: Optional[pulumi.Input[str]] = None,
+                 api_key_secret: Optional[pulumi.Input[str]] = None,
                  api_url: Optional[pulumi.Input[str]] = None,
                  debug: Optional[pulumi.Input[bool]] = None,
                  __props__=None):
@@ -90,6 +128,10 @@ class Provider(pulumi.ProviderResource):
         :param pulumi.ResourceOptions opts: Options for the resource.
         :param pulumi.Input[str] api_key: The Honeycomb API key to use. It can also be set via the `HONEYCOMB_API_KEY` or `HONEYCOMBIO_APIKEY` environment
                variables.
+        :param pulumi.Input[str] api_key_id: The ID portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_ID` environment
+               variable.
+        :param pulumi.Input[str] api_key_secret: The secret portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_SECRET`
+               environment variable.
         :param pulumi.Input[str] api_url: Override the URL of the Honeycomb API. Defaults to `https://api.honeycomb.io`. It can also be set via the
                `HONEYCOMB_API_ENDPOINT` environment variable.
         :param pulumi.Input[bool] debug: Enable the API client's debug logs. By default, a `TF_LOG` setting of debug or higher will enable this.
@@ -122,6 +164,8 @@ class Provider(pulumi.ProviderResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  api_key: Optional[pulumi.Input[str]] = None,
+                 api_key_id: Optional[pulumi.Input[str]] = None,
+                 api_key_secret: Optional[pulumi.Input[str]] = None,
                  api_url: Optional[pulumi.Input[str]] = None,
                  debug: Optional[pulumi.Input[bool]] = None,
                  __props__=None):
@@ -134,9 +178,11 @@ class Provider(pulumi.ProviderResource):
             __props__ = ProviderArgs.__new__(ProviderArgs)
 
             __props__.__dict__["api_key"] = None if api_key is None else pulumi.Output.secret(api_key)
+            __props__.__dict__["api_key_id"] = api_key_id
+            __props__.__dict__["api_key_secret"] = None if api_key_secret is None else pulumi.Output.secret(api_key_secret)
             __props__.__dict__["api_url"] = api_url
             __props__.__dict__["debug"] = pulumi.Output.from_input(debug).apply(pulumi.runtime.to_json) if debug is not None else None
-        secret_opts = pulumi.ResourceOptions(additional_secret_outputs=["apiKey"])
+        secret_opts = pulumi.ResourceOptions(additional_secret_outputs=["apiKey", "apiKeySecret"])
         opts = pulumi.ResourceOptions.merge(opts, secret_opts)
         super(Provider, __self__).__init__(
             'honeycomb',
@@ -152,6 +198,24 @@ class Provider(pulumi.ProviderResource):
         variables.
         """
         return pulumi.get(self, "api_key")
+
+    @property
+    @pulumi.getter(name="apiKeyId")
+    def api_key_id(self) -> pulumi.Output[Optional[str]]:
+        """
+        The ID portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_ID` environment
+        variable.
+        """
+        return pulumi.get(self, "api_key_id")
+
+    @property
+    @pulumi.getter(name="apiKeySecret")
+    def api_key_secret(self) -> pulumi.Output[Optional[str]]:
+        """
+        The secret portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_SECRET`
+        environment variable.
+        """
+        return pulumi.get(self, "api_key_secret")
 
     @property
     @pulumi.getter(name="apiUrl")

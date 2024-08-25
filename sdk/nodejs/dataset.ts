@@ -7,11 +7,9 @@ import * as utilities from "./utilities";
 /**
  * ## # Resource: honeycomb.Dataset
  *
- * Creates a dataset.
+ * Creates a Dataset in an Environment.
  *
- * > **Note** If this dataset already exists, creating this resource is a no-op.
- *
- * > **Note** Destroying or replacing this resource will not delete the created dataset. It's not possible to delete a dataset using the API.
+ * > **Note**: prior to version 0.27.0 of the provider, datasets were *not* deleted on destroy but left in place and only removed from state.
  *
  * ## Example Usage
  *
@@ -29,8 +27,6 @@ import * as utilities from "./utilities";
  * ```sh
  * $ pulumi import honeycomb:index/dataset:Dataset my_dataset my-dataset
  * ```
- *
- * You can find the slug in the URL bar when visiting the Dataset from the UI.
  */
 export class Dataset extends pulumi.CustomResource {
     /**
@@ -61,19 +57,23 @@ export class Dataset extends pulumi.CustomResource {
     }
 
     /**
-     * ISO8601 formatted time the column was created
+     * ISO8601-formatted time the dataset was created
      */
     public /*out*/ readonly createdAt!: pulumi.Output<string>;
     /**
+     * the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
+     */
+    public readonly deleteProtected!: pulumi.Output<boolean>;
+    /**
      * A longer description for dataset.
      */
-    public readonly description!: pulumi.Output<string | undefined>;
+    public readonly description!: pulumi.Output<string>;
     /**
      * The maximum unpacking depth of nested JSON fields.
      */
-    public readonly expandJsonDepth!: pulumi.Output<number | undefined>;
+    public readonly expandJsonDepth!: pulumi.Output<number>;
     /**
-     * ISO8601 formatted time the column was last written to (received event data)
+     * ISO8601-formatted time the dataset was last written to (received event data)
      */
     public /*out*/ readonly lastWrittenAt!: pulumi.Output<string>;
     /**
@@ -99,6 +99,7 @@ export class Dataset extends pulumi.CustomResource {
         if (opts.id) {
             const state = argsOrState as DatasetState | undefined;
             resourceInputs["createdAt"] = state ? state.createdAt : undefined;
+            resourceInputs["deleteProtected"] = state ? state.deleteProtected : undefined;
             resourceInputs["description"] = state ? state.description : undefined;
             resourceInputs["expandJsonDepth"] = state ? state.expandJsonDepth : undefined;
             resourceInputs["lastWrittenAt"] = state ? state.lastWrittenAt : undefined;
@@ -106,6 +107,7 @@ export class Dataset extends pulumi.CustomResource {
             resourceInputs["slug"] = state ? state.slug : undefined;
         } else {
             const args = argsOrState as DatasetArgs | undefined;
+            resourceInputs["deleteProtected"] = args ? args.deleteProtected : undefined;
             resourceInputs["description"] = args ? args.description : undefined;
             resourceInputs["expandJsonDepth"] = args ? args.expandJsonDepth : undefined;
             resourceInputs["name"] = args ? args.name : undefined;
@@ -123,9 +125,13 @@ export class Dataset extends pulumi.CustomResource {
  */
 export interface DatasetState {
     /**
-     * ISO8601 formatted time the column was created
+     * ISO8601-formatted time the dataset was created
      */
     createdAt?: pulumi.Input<string>;
+    /**
+     * the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
+     */
+    deleteProtected?: pulumi.Input<boolean>;
     /**
      * A longer description for dataset.
      */
@@ -135,7 +141,7 @@ export interface DatasetState {
      */
     expandJsonDepth?: pulumi.Input<number>;
     /**
-     * ISO8601 formatted time the column was last written to (received event data)
+     * ISO8601-formatted time the dataset was last written to (received event data)
      */
     lastWrittenAt?: pulumi.Input<string>;
     /**
@@ -152,6 +158,10 @@ export interface DatasetState {
  * The set of arguments for constructing a Dataset resource.
  */
 export interface DatasetArgs {
+    /**
+     * the current state of the Dataset's deletion protection status. Defaults to true. Cannot be set to false on create.
+     */
+    deleteProtected?: pulumi.Input<boolean>;
     /**
      * A longer description for dataset.
      */

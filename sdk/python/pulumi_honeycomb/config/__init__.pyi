@@ -15,6 +15,18 @@ The Honeycomb API key to use. It can also be set via the `HONEYCOMB_API_KEY` or 
 variables.
 """
 
+apiKeyId: Optional[str]
+"""
+The ID portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_ID` environment
+variable.
+"""
+
+apiKeySecret: Optional[str]
+"""
+The secret portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_SECRET`
+environment variable.
+"""
+
 apiUrl: Optional[str]
 """
 Override the URL of the Honeycomb API. Defaults to `https://api.honeycomb.io`. It can also be set via the

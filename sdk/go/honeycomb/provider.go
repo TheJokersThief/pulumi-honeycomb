@@ -21,6 +21,12 @@ type Provider struct {
 	// The Honeycomb API key to use. It can also be set via the `HONEYCOMB_API_KEY` or `HONEYCOMBIO_APIKEY` environment
 	// variables.
 	ApiKey pulumi.StringPtrOutput `pulumi:"apiKey"`
+	// The ID portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_ID` environment
+	// variable.
+	ApiKeyId pulumi.StringPtrOutput `pulumi:"apiKeyId"`
+	// The secret portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_SECRET`
+	// environment variable.
+	ApiKeySecret pulumi.StringPtrOutput `pulumi:"apiKeySecret"`
 	// Override the URL of the Honeycomb API. Defaults to `https://api.honeycomb.io`. It can also be set via the
 	// `HONEYCOMB_API_ENDPOINT` environment variable.
 	ApiUrl pulumi.StringPtrOutput `pulumi:"apiUrl"`
@@ -36,8 +42,12 @@ func NewProvider(ctx *pulumi.Context,
 	if args.ApiKey != nil {
 		args.ApiKey = pulumi.ToSecret(args.ApiKey).(pulumi.StringPtrInput)
 	}
+	if args.ApiKeySecret != nil {
+		args.ApiKeySecret = pulumi.ToSecret(args.ApiKeySecret).(pulumi.StringPtrInput)
+	}
 	secrets := pulumi.AdditionalSecretOutputs([]string{
 		"apiKey",
+		"apiKeySecret",
 	})
 	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
@@ -53,6 +63,12 @@ type providerArgs struct {
 	// The Honeycomb API key to use. It can also be set via the `HONEYCOMB_API_KEY` or `HONEYCOMBIO_APIKEY` environment
 	// variables.
 	ApiKey *string `pulumi:"apiKey"`
+	// The ID portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_ID` environment
+	// variable.
+	ApiKeyId *string `pulumi:"apiKeyId"`
+	// The secret portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_SECRET`
+	// environment variable.
+	ApiKeySecret *string `pulumi:"apiKeySecret"`
 	// Override the URL of the Honeycomb API. Defaults to `https://api.honeycomb.io`. It can also be set via the
 	// `HONEYCOMB_API_ENDPOINT` environment variable.
 	ApiUrl *string `pulumi:"apiUrl"`
@@ -65,6 +81,12 @@ type ProviderArgs struct {
 	// The Honeycomb API key to use. It can also be set via the `HONEYCOMB_API_KEY` or `HONEYCOMBIO_APIKEY` environment
 	// variables.
 	ApiKey pulumi.StringPtrInput
+	// The ID portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_ID` environment
+	// variable.
+	ApiKeyId pulumi.StringPtrInput
+	// The secret portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_SECRET`
+	// environment variable.
+	ApiKeySecret pulumi.StringPtrInput
 	// Override the URL of the Honeycomb API. Defaults to `https://api.honeycomb.io`. It can also be set via the
 	// `HONEYCOMB_API_ENDPOINT` environment variable.
 	ApiUrl pulumi.StringPtrInput
@@ -113,6 +135,18 @@ func (o ProviderOutput) ToProviderOutputWithContext(ctx context.Context) Provide
 // variables.
 func (o ProviderOutput) ApiKey() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.ApiKey }).(pulumi.StringPtrOutput)
+}
+
+// The ID portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_ID` environment
+// variable.
+func (o ProviderOutput) ApiKeyId() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.ApiKeyId }).(pulumi.StringPtrOutput)
+}
+
+// The secret portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_SECRET`
+// environment variable.
+func (o ProviderOutput) ApiKeySecret() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.ApiKeySecret }).(pulumi.StringPtrOutput)
 }
 
 // Override the URL of the Honeycomb API. Defaults to `https://api.honeycomb.io`. It can also be set via the

@@ -13,9 +13,10 @@ import (
 
 // ## # Data Source: GetQuerySpecification
 //
-// Generates a [Query Specificaiton](https://docs.honeycomb.io/api/query-specification/) in JSON format.
+// Generates a [Query Specification](https://docs.honeycomb.io/api/query-specification/) in JSON format for use with resources that expect a JSON-formatted Query Specification like `Query`.
 //
-// This is a data source which can be used to construct a JSON representation of a Honeycomb [Query Specification](https://docs.honeycomb.io/api/query-specification/). The `json` attribute contains a serialized JSON representation which can be passed to the `queryJson` field of the `Query` resource for use in boards and triggers.
+// Using this data source to generate query specifications is optional.
+// It is also valid to use literal JSON strings in your configuration or to use the file interpolation function to read a raw JSON query specification from a file.
 //
 // ## Example Usage
 //
@@ -111,7 +112,9 @@ type GetQuerySpecificationResult struct {
 	Filters           []GetQuerySpecificationFilter      `pulumi:"filters"`
 	Granularity       *int                               `pulumi:"granularity"`
 	Havings           []GetQuerySpecificationHaving      `pulumi:"havings"`
-	// The provider-assigned unique ID for this managed resource.
+	// ID of the query specification.
+	//
+	// Deprecated: The `id` attribute is deprecated and included for compatibility with the Terraform Plugin SDK. It will be removed in a future version.
 	Id string `pulumi:"id"`
 	// JSON representation of the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification), can be used as input for other resources.
 	Json      string                       `pulumi:"json"`
@@ -209,7 +212,9 @@ func (o GetQuerySpecificationResultOutput) Havings() GetQuerySpecificationHaving
 	return o.ApplyT(func(v GetQuerySpecificationResult) []GetQuerySpecificationHaving { return v.Havings }).(GetQuerySpecificationHavingArrayOutput)
 }
 
-// The provider-assigned unique ID for this managed resource.
+// ID of the query specification.
+//
+// Deprecated: The `id` attribute is deprecated and included for compatibility with the Terraform Plugin SDK. It will be removed in a future version.
 func (o GetQuerySpecificationResultOutput) Id() pulumi.StringOutput {
 	return o.ApplyT(func(v GetQuerySpecificationResult) string { return v.Id }).(pulumi.StringOutput)
 }

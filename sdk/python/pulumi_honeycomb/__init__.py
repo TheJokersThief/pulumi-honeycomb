@@ -5,30 +5,23 @@
 from . import _utilities
 import typing
 # Export this package's modules as members:
-from .board import *
-from .column import *
+from .api_key import *
+from .burn_alert import *
 from .dataset import *
-from .dataset_definition import *
-from .derived_column import *
-from .email_recipient import *
-from .get_column import *
-from .get_columns import *
+from .environment import *
+from .get_auth_metadata import *
+from .get_dataset import *
 from .get_datasets import *
-from .get_query_result import *
+from .get_derived_column import *
+from .get_derived_columns import *
+from .get_environment import *
+from .get_environments import *
 from .get_query_specification import *
-from .get_recipient import *
-from .get_recipients import *
-from .get_trigger_recipient import *
-from .marker import *
-from .marker_setting import *
-from .ms_teams_recipient import *
-from .pager_duty_recipient import *
+from .get_slo import *
+from .get_slos import *
 from .provider import *
 from .query import *
-from .query_annotation import *
-from .slack_recipient import *
-from .slo import *
-from .webhook_recipient import *
+from .trigger import *
 from ._inputs import *
 from . import outputs
 
@@ -44,18 +37,18 @@ _utilities.register(
 [
  {
   "pkg": "honeycomb",
-  "mod": "index/board",
+  "mod": "index/apiKey",
   "fqn": "pulumi_honeycomb",
   "classes": {
-   "honeycomb:index/board:Board": "Board"
+   "honeycomb:index/apiKey:ApiKey": "ApiKey"
   }
  },
  {
   "pkg": "honeycomb",
-  "mod": "index/column",
+  "mod": "index/burnAlert",
   "fqn": "pulumi_honeycomb",
   "classes": {
-   "honeycomb:index/column:Column": "Column"
+   "honeycomb:index/burnAlert:BurnAlert": "BurnAlert"
   }
  },
  {
@@ -68,58 +61,10 @@ _utilities.register(
  },
  {
   "pkg": "honeycomb",
-  "mod": "index/datasetDefinition",
+  "mod": "index/environment",
   "fqn": "pulumi_honeycomb",
   "classes": {
-   "honeycomb:index/datasetDefinition:DatasetDefinition": "DatasetDefinition"
-  }
- },
- {
-  "pkg": "honeycomb",
-  "mod": "index/derivedColumn",
-  "fqn": "pulumi_honeycomb",
-  "classes": {
-   "honeycomb:index/derivedColumn:DerivedColumn": "DerivedColumn"
-  }
- },
- {
-  "pkg": "honeycomb",
-  "mod": "index/emailRecipient",
-  "fqn": "pulumi_honeycomb",
-  "classes": {
-   "honeycomb:index/emailRecipient:EmailRecipient": "EmailRecipient"
-  }
- },
- {
-  "pkg": "honeycomb",
-  "mod": "index/mSTeamsRecipient",
-  "fqn": "pulumi_honeycomb",
-  "classes": {
-   "honeycomb:index/mSTeamsRecipient:MSTeamsRecipient": "MSTeamsRecipient"
-  }
- },
- {
-  "pkg": "honeycomb",
-  "mod": "index/marker",
-  "fqn": "pulumi_honeycomb",
-  "classes": {
-   "honeycomb:index/marker:Marker": "Marker"
-  }
- },
- {
-  "pkg": "honeycomb",
-  "mod": "index/markerSetting",
-  "fqn": "pulumi_honeycomb",
-  "classes": {
-   "honeycomb:index/markerSetting:MarkerSetting": "MarkerSetting"
-  }
- },
- {
-  "pkg": "honeycomb",
-  "mod": "index/pagerDutyRecipient",
-  "fqn": "pulumi_honeycomb",
-  "classes": {
-   "honeycomb:index/pagerDutyRecipient:PagerDutyRecipient": "PagerDutyRecipient"
+   "honeycomb:index/environment:Environment": "Environment"
   }
  },
  {
@@ -132,34 +77,10 @@ _utilities.register(
  },
  {
   "pkg": "honeycomb",
-  "mod": "index/queryAnnotation",
+  "mod": "index/trigger",
   "fqn": "pulumi_honeycomb",
   "classes": {
-   "honeycomb:index/queryAnnotation:QueryAnnotation": "QueryAnnotation"
-  }
- },
- {
-  "pkg": "honeycomb",
-  "mod": "index/sLO",
-  "fqn": "pulumi_honeycomb",
-  "classes": {
-   "honeycomb:index/sLO:SLO": "SLO"
-  }
- },
- {
-  "pkg": "honeycomb",
-  "mod": "index/slackRecipient",
-  "fqn": "pulumi_honeycomb",
-  "classes": {
-   "honeycomb:index/slackRecipient:SlackRecipient": "SlackRecipient"
-  }
- },
- {
-  "pkg": "honeycomb",
-  "mod": "index/webhookRecipient",
-  "fqn": "pulumi_honeycomb",
-  "classes": {
-   "honeycomb:index/webhookRecipient:WebhookRecipient": "WebhookRecipient"
+   "honeycomb:index/trigger:Trigger": "Trigger"
   }
  }
 ]

@@ -18,8 +18,10 @@ class QueryArgs:
                  query_json: pulumi.Input[str]):
         """
         The set of arguments for constructing a Query resource.
-        :param pulumi.Input[str] dataset: The dataset this query is added to. Use `__all__` for Environment-wide queries.
-        :param pulumi.Input[str] query_json: A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `get_query_specification` data source.
+        :param pulumi.Input[str] dataset: The dataset this query is scoped to.
+               Use `__all__` for Environment-wide queries.
+        :param pulumi.Input[str] query_json: A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+               While the JSON can be constructed manually, using the `get_query_specification` data source provides deeper validation.
         """
         pulumi.set(__self__, "dataset", dataset)
         pulumi.set(__self__, "query_json", query_json)
@@ -28,7 +30,8 @@ class QueryArgs:
     @pulumi.getter
     def dataset(self) -> pulumi.Input[str]:
         """
-        The dataset this query is added to. Use `__all__` for Environment-wide queries.
+        The dataset this query is scoped to.
+        Use `__all__` for Environment-wide queries.
         """
         return pulumi.get(self, "dataset")
 
@@ -40,7 +43,8 @@ class QueryArgs:
     @pulumi.getter(name="queryJson")
     def query_json(self) -> pulumi.Input[str]:
         """
-        A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `get_query_specification` data source.
+        A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+        While the JSON can be constructed manually, using the `get_query_specification` data source provides deeper validation.
         """
         return pulumi.get(self, "query_json")
 
@@ -56,8 +60,10 @@ class _QueryState:
                  query_json: Optional[pulumi.Input[str]] = None):
         """
         Input properties used for looking up and filtering Query resources.
-        :param pulumi.Input[str] dataset: The dataset this query is added to. Use `__all__` for Environment-wide queries.
-        :param pulumi.Input[str] query_json: A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `get_query_specification` data source.
+        :param pulumi.Input[str] dataset: The dataset this query is scoped to.
+               Use `__all__` for Environment-wide queries.
+        :param pulumi.Input[str] query_json: A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+               While the JSON can be constructed manually, using the `get_query_specification` data source provides deeper validation.
         """
         if dataset is not None:
             pulumi.set(__self__, "dataset", dataset)
@@ -68,7 +74,8 @@ class _QueryState:
     @pulumi.getter
     def dataset(self) -> Optional[pulumi.Input[str]]:
         """
-        The dataset this query is added to. Use `__all__` for Environment-wide queries.
+        The dataset this query is scoped to.
+        Use `__all__` for Environment-wide queries.
         """
         return pulumi.get(self, "dataset")
 
@@ -80,7 +87,8 @@ class _QueryState:
     @pulumi.getter(name="queryJson")
     def query_json(self) -> Optional[pulumi.Input[str]]:
         """
-        A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `get_query_specification` data source.
+        A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+        While the JSON can be constructed manually, using the `get_query_specification` data source provides deeper validation.
         """
         return pulumi.get(self, "query_json")
 
@@ -100,42 +108,27 @@ class Query(pulumi.CustomResource):
         """
         ## # Resource: Query
 
-        Creates a query in a dataset.
+        Creates a Query scoped to a Dataset or Environment.
 
-        Queries can be used by triggers and boards, or be executed via the [Query Data API](https://docs.honeycomb.io/api/query-results/).
+        Queries can be used by Triggers and Boards, or be executed via the [Query Data API](https://docs.honeycomb.io/api/query-results/).
 
-        > **Note** Queries can only be created or read. Any changes will result in a new query object being created, and destroying it does nothing.
-
-        ## Example Usage
-
-        ```python
-        import pulumi
-        import pulumi_honeycomb as honeycomb
-
-        config = pulumi.Config()
-        dataset = config.require("dataset")
-        test_query_get_query_specification = honeycomb.get_query_specification(calculations=[{
-                "op": "AVG",
-                "column": "duration_ms",
-            }],
-            filters=[{
-                "column": "duration_ms",
-                "op": ">",
-                "value": "200",
-            }])
-        test_query_query = honeycomb.Query("testQueryQuery",
-            dataset=dataset,
-            query_json=test_query_get_query_specification.json)
-        ```
+        > **Note** Queries are immutable and can not be deleted -- only created or read.
+          Any changes will result in a new query object being created.
 
         ## Import
 
-        Queries cannot be imported.
+        Querys can be imported using a combination of the dataset name and their ID, e.g.
+
+        ```sh
+        $ pulumi import honeycomb:index/query:Query my_query my-dataset/bj8BwOa1uRz
+        ```
 
         :param str resource_name: The name of the resource.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[str] dataset: The dataset this query is added to. Use `__all__` for Environment-wide queries.
-        :param pulumi.Input[str] query_json: A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `get_query_specification` data source.
+        :param pulumi.Input[str] dataset: The dataset this query is scoped to.
+               Use `__all__` for Environment-wide queries.
+        :param pulumi.Input[str] query_json: A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+               While the JSON can be constructed manually, using the `get_query_specification` data source provides deeper validation.
         """
         ...
     @overload
@@ -146,37 +139,20 @@ class Query(pulumi.CustomResource):
         """
         ## # Resource: Query
 
-        Creates a query in a dataset.
+        Creates a Query scoped to a Dataset or Environment.
 
-        Queries can be used by triggers and boards, or be executed via the [Query Data API](https://docs.honeycomb.io/api/query-results/).
+        Queries can be used by Triggers and Boards, or be executed via the [Query Data API](https://docs.honeycomb.io/api/query-results/).
 
-        > **Note** Queries can only be created or read. Any changes will result in a new query object being created, and destroying it does nothing.
-
-        ## Example Usage
-
-        ```python
-        import pulumi
-        import pulumi_honeycomb as honeycomb
-
-        config = pulumi.Config()
-        dataset = config.require("dataset")
-        test_query_get_query_specification = honeycomb.get_query_specification(calculations=[{
-                "op": "AVG",
-                "column": "duration_ms",
-            }],
-            filters=[{
-                "column": "duration_ms",
-                "op": ">",
-                "value": "200",
-            }])
-        test_query_query = honeycomb.Query("testQueryQuery",
-            dataset=dataset,
-            query_json=test_query_get_query_specification.json)
-        ```
+        > **Note** Queries are immutable and can not be deleted -- only created or read.
+          Any changes will result in a new query object being created.
 
         ## Import
 
-        Queries cannot be imported.
+        Querys can be imported using a combination of the dataset name and their ID, e.g.
+
+        ```sh
+        $ pulumi import honeycomb:index/query:Query my_query my-dataset/bj8BwOa1uRz
+        ```
 
         :param str resource_name: The name of the resource.
         :param QueryArgs args: The arguments to use to populate this resource's properties.
@@ -229,8 +205,10 @@ class Query(pulumi.CustomResource):
         :param str resource_name: The unique name of the resulting resource.
         :param pulumi.Input[str] id: The unique provider ID of the resource to lookup.
         :param pulumi.ResourceOptions opts: Options for the resource.
-        :param pulumi.Input[str] dataset: The dataset this query is added to. Use `__all__` for Environment-wide queries.
-        :param pulumi.Input[str] query_json: A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `get_query_specification` data source.
+        :param pulumi.Input[str] dataset: The dataset this query is scoped to.
+               Use `__all__` for Environment-wide queries.
+        :param pulumi.Input[str] query_json: A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+               While the JSON can be constructed manually, using the `get_query_specification` data source provides deeper validation.
         """
         opts = pulumi.ResourceOptions.merge(opts, pulumi.ResourceOptions(id=id))
 
@@ -244,7 +222,8 @@ class Query(pulumi.CustomResource):
     @pulumi.getter
     def dataset(self) -> pulumi.Output[str]:
         """
-        The dataset this query is added to. Use `__all__` for Environment-wide queries.
+        The dataset this query is scoped to.
+        Use `__all__` for Environment-wide queries.
         """
         return pulumi.get(self, "dataset")
 
@@ -252,7 +231,8 @@ class Query(pulumi.CustomResource):
     @pulumi.getter(name="queryJson")
     def query_json(self) -> pulumi.Output[str]:
         """
-        A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification). While the JSON can be constructed manually, it is easiest to use the `get_query_specification` data source.
+        A JSON object describing the query according to the [Query Specification](https://docs.honeycomb.io/api/query-specification/#fields-on-a-query-specification).
+        While the JSON can be constructed manually, using the `get_query_specification` data source provides deeper validation.
         """
         return pulumi.get(self, "query_json")
 

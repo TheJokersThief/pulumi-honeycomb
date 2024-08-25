@@ -21,36 +21,18 @@ func (m *module) Version() semver.Version {
 
 func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi.Resource, err error) {
 	switch typ {
-	case "honeycomb:index/board:Board":
-		r = &Board{}
-	case "honeycomb:index/column:Column":
-		r = &Column{}
+	case "honeycomb:index/apiKey:ApiKey":
+		r = &ApiKey{}
+	case "honeycomb:index/burnAlert:BurnAlert":
+		r = &BurnAlert{}
 	case "honeycomb:index/dataset:Dataset":
 		r = &Dataset{}
-	case "honeycomb:index/datasetDefinition:DatasetDefinition":
-		r = &DatasetDefinition{}
-	case "honeycomb:index/derivedColumn:DerivedColumn":
-		r = &DerivedColumn{}
-	case "honeycomb:index/emailRecipient:EmailRecipient":
-		r = &EmailRecipient{}
-	case "honeycomb:index/mSTeamsRecipient:MSTeamsRecipient":
-		r = &MSTeamsRecipient{}
-	case "honeycomb:index/marker:Marker":
-		r = &Marker{}
-	case "honeycomb:index/markerSetting:MarkerSetting":
-		r = &MarkerSetting{}
-	case "honeycomb:index/pagerDutyRecipient:PagerDutyRecipient":
-		r = &PagerDutyRecipient{}
+	case "honeycomb:index/environment:Environment":
+		r = &Environment{}
 	case "honeycomb:index/query:Query":
 		r = &Query{}
-	case "honeycomb:index/queryAnnotation:QueryAnnotation":
-		r = &QueryAnnotation{}
-	case "honeycomb:index/sLO:SLO":
-		r = &SLO{}
-	case "honeycomb:index/slackRecipient:SlackRecipient":
-		r = &SlackRecipient{}
-	case "honeycomb:index/webhookRecipient:WebhookRecipient":
-		r = &WebhookRecipient{}
+	case "honeycomb:index/trigger:Trigger":
+		r = &Trigger{}
 	default:
 		return nil, fmt.Errorf("unknown resource type: %s", typ)
 	}
@@ -84,12 +66,12 @@ func init() {
 	}
 	pulumi.RegisterResourceModule(
 		"honeycomb",
-		"index/board",
+		"index/apiKey",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(
 		"honeycomb",
-		"index/column",
+		"index/burnAlert",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(
@@ -99,37 +81,7 @@ func init() {
 	)
 	pulumi.RegisterResourceModule(
 		"honeycomb",
-		"index/datasetDefinition",
-		&module{version},
-	)
-	pulumi.RegisterResourceModule(
-		"honeycomb",
-		"index/derivedColumn",
-		&module{version},
-	)
-	pulumi.RegisterResourceModule(
-		"honeycomb",
-		"index/emailRecipient",
-		&module{version},
-	)
-	pulumi.RegisterResourceModule(
-		"honeycomb",
-		"index/mSTeamsRecipient",
-		&module{version},
-	)
-	pulumi.RegisterResourceModule(
-		"honeycomb",
-		"index/marker",
-		&module{version},
-	)
-	pulumi.RegisterResourceModule(
-		"honeycomb",
-		"index/markerSetting",
-		&module{version},
-	)
-	pulumi.RegisterResourceModule(
-		"honeycomb",
-		"index/pagerDutyRecipient",
+		"index/environment",
 		&module{version},
 	)
 	pulumi.RegisterResourceModule(
@@ -139,22 +91,7 @@ func init() {
 	)
 	pulumi.RegisterResourceModule(
 		"honeycomb",
-		"index/queryAnnotation",
-		&module{version},
-	)
-	pulumi.RegisterResourceModule(
-		"honeycomb",
-		"index/sLO",
-		&module{version},
-	)
-	pulumi.RegisterResourceModule(
-		"honeycomb",
-		"index/slackRecipient",
-		&module{version},
-	)
-	pulumi.RegisterResourceModule(
-		"honeycomb",
-		"index/webhookRecipient",
+		"index/trigger",
 		&module{version},
 	)
 	pulumi.RegisterResourcePackage(

@@ -17,6 +17,18 @@ func GetApiKey(ctx *pulumi.Context) string {
 	return config.Get(ctx, "honeycomb:apiKey")
 }
 
+// The ID portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_ID` environment
+// variable.
+func GetApiKeyId(ctx *pulumi.Context) string {
+	return config.Get(ctx, "honeycomb:apiKeyId")
+}
+
+// The secret portion of the Honeycomb Management API key to use. It can also be set via the `HONEYCOMB_KEY_SECRET`
+// environment variable.
+func GetApiKeySecret(ctx *pulumi.Context) string {
+	return config.Get(ctx, "honeycomb:apiKeySecret")
+}
+
 // Override the URL of the Honeycomb API. Defaults to `https://api.honeycomb.io`. It can also be set via the
 // `HONEYCOMB_API_ENDPOINT` environment variable.
 func GetApiUrl(ctx *pulumi.Context) string {

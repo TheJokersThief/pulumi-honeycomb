@@ -1,18 +1,11 @@
 {
     "auto-aliasing": {
         "resources": {
-            "honeycombio_board": {
-                "current": "honeycomb:index/board:Board",
+            "honeycombio_api_key": {
+                "current": "honeycomb:index/apiKey:ApiKey",
                 "fields": {
-                    "query": {
-                        "maxItemsOne": false,
-                        "elem": {
-                            "fields": {
-                                "graph_settings": {
-                                    "maxItemsOne": true
-                                }
-                            }
-                        }
+                    "permissions": {
+                        "maxItemsOne": true
                     }
                 }
             },
@@ -31,45 +24,28 @@
                     }
                 }
             },
-            "honeycombio_column": {
-                "current": "honeycomb:index/column:Column"
-            },
             "honeycombio_dataset": {
                 "current": "honeycomb:index/dataset:Dataset"
             },
-            "honeycombio_dataset_definition": {
-                "current": "honeycomb:index/datasetDefinition:DatasetDefinition"
-            },
-            "honeycombio_derived_column": {
-                "current": "honeycomb:index/derivedColumn:DerivedColumn"
-            },
-            "honeycombio_email_recipient": {
-                "current": "honeycomb:index/emailRecipient:EmailRecipient"
-            },
-            "honeycombio_marker": {
-                "current": "honeycomb:index/marker:Marker"
-            },
-            "honeycombio_marker_setting": {
-                "current": "honeycomb:index/markerSetting:MarkerSetting"
-            },
-            "honeycombio_pagerduty_recipient": {
-                "current": "honeycomb:index/pagerDutyRecipient:PagerDutyRecipient"
+            "honeycombio_environment": {
+                "current": "honeycomb:index/environment:Environment"
             },
             "honeycombio_query": {
                 "current": "honeycomb:index/query:Query"
             },
-            "honeycombio_query_annotation": {
-                "current": "honeycomb:index/queryAnnotation:QueryAnnotation"
-            },
-            "honeycombio_slack_recipient": {
-                "current": "honeycomb:index/slackRecipient:SlackRecipient"
-            },
-            "honeycombio_slo": {
-                "current": "honeycomb:index/sLO:SLO"
-            },
             "honeycombio_trigger": {
                 "current": "honeycomb:index/trigger:Trigger",
                 "fields": {
+                    "evaluation_schedule": {
+                        "maxItemsOne": true,
+                        "elem": {
+                            "fields": {
+                                "days_of_week": {
+                                    "maxItemsOne": false
+                                }
+                            }
+                        }
+                    },
                     "recipient": {
                         "maxItemsOne": false,
                         "elem": {
@@ -84,15 +60,21 @@
                         "maxItemsOne": true
                     }
                 }
-            },
-            "honeycombio_webhook_recipient": {
-                "current": "honeycomb:index/webhookRecipient:WebhookRecipient"
             }
         },
         "datasources": {
+            "honeycombio_auth_metadata": {
+                "current": "honeycomb:index/getAuthMetadata:GetAuthMetadata"
+            },
+            "honeycombio_dataset": {
+                "current": "honeycomb:index/getDataset:GetDataset"
+            },
             "honeycombio_datasets": {
                 "current": "honeycomb:index/getDatasets:GetDatasets",
                 "fields": {
+                    "detail_filter": {
+                        "maxItemsOne": true
+                    },
                     "names": {
                         "maxItemsOne": false
                     },
@@ -101,10 +83,27 @@
                     }
                 }
             },
-            "honeycombio_query_result": {
-                "current": "honeycomb:index/getQueryResult:GetQueryResult",
+            "honeycombio_derived_column": {
+                "current": "honeycomb:index/getDerivedColumn:GetDerivedColumn"
+            },
+            "honeycombio_derived_columns": {
+                "current": "honeycomb:index/getDerivedColumns:GetDerivedColumns",
                 "fields": {
-                    "results": {
+                    "names": {
+                        "maxItemsOne": false
+                    }
+                }
+            },
+            "honeycombio_environment": {
+                "current": "honeycomb:index/getEnvironment:GetEnvironment"
+            },
+            "honeycombio_environments": {
+                "current": "honeycomb:index/getEnvironments:GetEnvironments",
+                "fields": {
+                    "detail_filter": {
+                        "maxItemsOne": true
+                    },
+                    "ids": {
                         "maxItemsOne": false
                     }
                 }
@@ -129,16 +128,11 @@
                     }
                 }
             },
-            "honeycombio_recipient": {
-                "current": "honeycomb:index/getRecipient:GetRecipient",
-                "fields": {
-                    "detail_filter": {
-                        "maxItemsOne": true
-                    }
-                }
+            "honeycombio_slo": {
+                "current": "honeycomb:index/getSLO:GetSLO"
             },
-            "honeycombio_recipients": {
-                "current": "honeycomb:index/getRecipients:GetRecipients",
+            "honeycombio_slos": {
+                "current": "honeycomb:index/getSLOs:GetSLOs",
                 "fields": {
                     "detail_filter": {
                         "maxItemsOne": true
@@ -147,9 +141,6 @@
                         "maxItemsOne": false
                     }
                 }
-            },
-            "honeycombio_trigger_recipient": {
-                "current": "honeycomb:index/getTriggerRecipient:GetTriggerRecipient"
             }
         }
     },
