@@ -1,5 +1,5 @@
 {
-    "name": "@pulumi/honeycomb",
+    "name": "@thejokersthief/pulumi-honeycomb",
     "version": "${VERSION}",
     "description": "A Pulumi package for creating and managing honeycomb cloud resources.",
     "keywords": [

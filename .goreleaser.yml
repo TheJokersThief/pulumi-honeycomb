@@ -21,7 +21,7 @@ builds:
       - -X github.com/thejokersthief/pulumi-honeycomb/provider/pkg/version.Version={{.Tag }}
     main: ./cmd/pulumi-resource-honeycomb/
 changelog:
-  skip: true
+  disable: true
 release:
   disable: false
   prerelease: auto

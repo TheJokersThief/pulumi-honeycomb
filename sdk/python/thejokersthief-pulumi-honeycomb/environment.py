@@ -204,7 +204,7 @@ class Environment(pulumi.CustomResource):
 
         ```python
         import pulumi
-        import pulumi_honeycomb as honeycomb
+        import thejokersthief-pulumi-honeycomb as honeycomb
 
         uat = honeycomb.Environment("uat", color="green")
         ```
@@ -244,7 +244,7 @@ class Environment(pulumi.CustomResource):
 
         ```python
         import pulumi
-        import pulumi_honeycomb as honeycomb
+        import thejokersthief-pulumi-honeycomb as honeycomb
 
         uat = honeycomb.Environment("uat", color="green")
         ```

@@ -15,7 +15,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as honeycomb from "@pulumi/honeycomb";
+ * import * as honeycomb from "@thejokersthief/pulumi-honeycomb";
  *
  * const uat = new honeycomb.Environment("uat", {color: "green"});
  * ```

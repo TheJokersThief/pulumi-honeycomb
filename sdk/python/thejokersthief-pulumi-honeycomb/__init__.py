@@ -27,10 +27,10 @@ from . import outputs
 
 # Make subpackages available:
 if typing.TYPE_CHECKING:
-    import pulumi_honeycomb.config as __config
+    import thejokersthief-pulumi-honeycomb.config as __config
     config = __config
 else:
-    config = _utilities.lazy_import('pulumi_honeycomb.config')
+    config = _utilities.lazy_import('thejokersthief-pulumi-honeycomb.config')
 
 _utilities.register(
     resource_modules="""
@@ -38,7 +38,7 @@ _utilities.register(
  {
   "pkg": "honeycomb",
   "mod": "index/apiKey",
-  "fqn": "pulumi_honeycomb",
+  "fqn": "thejokersthief-pulumi-honeycomb",
   "classes": {
    "honeycomb:index/apiKey:ApiKey": "ApiKey"
   }
@@ -46,7 +46,7 @@ _utilities.register(
  {
   "pkg": "honeycomb",
   "mod": "index/burnAlert",
-  "fqn": "pulumi_honeycomb",
+  "fqn": "thejokersthief-pulumi-honeycomb",
   "classes": {
    "honeycomb:index/burnAlert:BurnAlert": "BurnAlert"
   }
@@ -54,7 +54,7 @@ _utilities.register(
  {
   "pkg": "honeycomb",
   "mod": "index/dataset",
-  "fqn": "pulumi_honeycomb",
+  "fqn": "thejokersthief-pulumi-honeycomb",
   "classes": {
    "honeycomb:index/dataset:Dataset": "Dataset"
   }
@@ -62,7 +62,7 @@ _utilities.register(
  {
   "pkg": "honeycomb",
   "mod": "index/environment",
-  "fqn": "pulumi_honeycomb",
+  "fqn": "thejokersthief-pulumi-honeycomb",
   "classes": {
    "honeycomb:index/environment:Environment": "Environment"
   }
@@ -70,7 +70,7 @@ _utilities.register(
  {
   "pkg": "honeycomb",
   "mod": "index/query",
-  "fqn": "pulumi_honeycomb",
+  "fqn": "thejokersthief-pulumi-honeycomb",
   "classes": {
    "honeycomb:index/query:Query": "Query"
   }
@@ -78,7 +78,7 @@ _utilities.register(
  {
   "pkg": "honeycomb",
   "mod": "index/trigger",
-  "fqn": "pulumi_honeycomb",
+  "fqn": "thejokersthief-pulumi-honeycomb",
   "classes": {
    "honeycomb:index/trigger:Trigger": "Trigger"
   }
@@ -90,7 +90,7 @@ _utilities.register(
  {
   "pkg": "honeycomb",
   "token": "pulumi:providers:honeycomb",
-  "fqn": "pulumi_honeycomb",
+  "fqn": "thejokersthief-pulumi-honeycomb",
   "class": "Provider"
  }
 ]

@@ -325,7 +325,7 @@ class BurnAlert(pulumi.CustomResource):
         ### Basic Example - Exhaustion Time Burn Alert
         ```python
         import pulumi
-        import pulumi_honeycomb as honeycomb
+        import thejokersthief-pulumi-honeycomb as honeycomb
 
         config = pulumi.Config()
         dataset = config.require("dataset")
@@ -350,7 +350,7 @@ class BurnAlert(pulumi.CustomResource):
         ### Basic Example - Budget Rate Burn Alert
         ```python
         import pulumi
-        import pulumi_honeycomb as honeycomb
+        import thejokersthief-pulumi-honeycomb as honeycomb
 
         config = pulumi.Config()
         dataset = config.require("dataset")
@@ -416,7 +416,7 @@ class BurnAlert(pulumi.CustomResource):
         ### Basic Example - Exhaustion Time Burn Alert
         ```python
         import pulumi
-        import pulumi_honeycomb as honeycomb
+        import thejokersthief-pulumi-honeycomb as honeycomb
 
         config = pulumi.Config()
         dataset = config.require("dataset")
@@ -441,7 +441,7 @@ class BurnAlert(pulumi.CustomResource):
         ### Basic Example - Budget Rate Burn Alert
         ```python
         import pulumi
-        import pulumi_honeycomb as honeycomb
+        import thejokersthief-pulumi-honeycomb as honeycomb
 
         config = pulumi.Config()
         dataset = config.require("dataset")

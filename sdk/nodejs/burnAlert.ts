@@ -19,7 +19,7 @@ import * as utilities from "./utilities";
  * ### Basic Example - Exhaustion Time Burn Alert
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as honeycomb from "@pulumi/honeycomb";
+ * import * as honeycomb from "@thejokersthief/pulumi-honeycomb";
  *
  * const config = new pulumi.Config();
  * const dataset = config.require("dataset");
@@ -45,7 +45,7 @@ import * as utilities from "./utilities";
  * ### Basic Example - Budget Rate Burn Alert
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as honeycomb from "@pulumi/honeycomb";
+ * import * as honeycomb from "@thejokersthief/pulumi-honeycomb";
  *
  * const config = new pulumi.Config();
  * const dataset = config.require("dataset");

@@ -224,7 +224,7 @@ class Dataset(pulumi.CustomResource):
 
         ```python
         import pulumi
-        import pulumi_honeycomb as honeycomb
+        import thejokersthief-pulumi-honeycomb as honeycomb
 
         my_dataset = honeycomb.Dataset("myDataset", description="buzzing with data")
         ```
@@ -261,7 +261,7 @@ class Dataset(pulumi.CustomResource):
 
         ```python
         import pulumi
-        import pulumi_honeycomb as honeycomb
+        import thejokersthief-pulumi-honeycomb as honeycomb
 
         my_dataset = honeycomb.Dataset("myDataset", description="buzzing with data")
         ```

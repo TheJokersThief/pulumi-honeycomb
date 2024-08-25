@@ -15,7 +15,7 @@ import * as utilities from "./utilities";
  *
  * ```typescript
  * import * as pulumi from "@pulumi/pulumi";
- * import * as honeycomb from "@pulumi/honeycomb";
+ * import * as honeycomb from "@thejokersthief/pulumi-honeycomb";
  *
  * const myDataset = new honeycomb.Dataset("myDataset", {description: "buzzing with data"});
  * ```

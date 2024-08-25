@@ -226,7 +226,7 @@ class ApiKey(pulumi.CustomResource):
 
         ```python
         import pulumi
-        import pulumi_honeycomb as honeycomb
+        import thejokersthief-pulumi-honeycomb as honeycomb
 
         prod_ingest = honeycomb.ApiKey("prodIngest",
             type="ingest",
@@ -267,7 +267,7 @@ class ApiKey(pulumi.CustomResource):
 
         ```python
         import pulumi
-        import pulumi_honeycomb as honeycomb
+        import thejokersthief-pulumi-honeycomb as honeycomb
 
         prod_ingest = honeycomb.ApiKey("prodIngest",
             type="ingest",

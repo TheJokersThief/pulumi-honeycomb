@@ -465,6 +465,7 @@ class Trigger(pulumi.CustomResource):
         ```python
         import pulumi
         import pulumi_honeycomb as honeycomb
+        import thejokersthief-pulumi-honeycomb as honeycomb
 
         config = pulumi.Config()
         dataset = config.require("dataset")
@@ -554,6 +555,7 @@ class Trigger(pulumi.CustomResource):
         ```python
         import pulumi
         import pulumi_honeycomb as honeycomb
+        import thejokersthief-pulumi-honeycomb as honeycomb
 
         config = pulumi.Config()
         dataset = config.require("dataset")
